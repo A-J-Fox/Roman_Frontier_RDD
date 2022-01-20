@@ -1,0 +1,300 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+
+```{r}
+library(tmap)
+library(maptools)
+library(raster)
+library(SpatialRDD)
+library(ggplot2)
+library(sf)
+library(stars)
+library(rgdal)
+library(rdrobust)
+library(xtable)
+library(stargazer)
+library(lwgeom)
+library(margins)
+```
+
+How long does history leave its mark on economic development? This notebook accompanies a paper exploring that question for the region of transdanubia in modern Hungary using a spatial RDD with NOAA luminosity data. The results suggest a causal link between the area of modern Hungary settled by the Romans and modern economic development in Europe. The concentration of settlement along the right bank, coupled with the continuity between the Roman and modern road systems are highly suggestive of increased economic development on the Roman side, and I hypothesize that continuity between the ancient roads and modern roadways despite the waves of invasions in late antiquity explains the "headstart" given to western Hungary. See the paper for more historical background. 
+
+The Roman settlement of Western Hungary is potentially a nice quasi-experiment in the long run impact of infrastructure. I run robust linear regressions, and then the danube boundary is used to run naive RDD with het­ eroskedasticity robust errors and data generated bandwidths, and finally fully spatial BDD regressions. Recentered distance to the Danube is used for the running variable in all discontinuity regressions. Since the luminosity data is a skewed distribution of discrete counts, I also run GLM Poisson regressions to predict luminosity levels in the Roman area.
+The unit of analysis is the 30 arc second pixel. I conduct all preliminary geospatial work in QGIS. The luminosity raster data is clipped to Hungaryâ€™s modern borders, and a vector shapefile representing the course of the Danube used to cut a line representing the boundary discontinuity, roughly following the center of the river. I create a polygon representing the treatment area of Transdanubia as can be seen in figure 4.
+I convert each pixel representing luminosity to a point at its centroid. Using the poly­ gon representing the treatment area I then generate a binary variable for each luminosity point value. Then I calculate the closest distance between each point and the boundary line, re­centering the distances so that 0 represented the Danube boundary. Figure 6 illustrates each of these steps.
+
+
+The first thing to do is to load the .tif satellite imagery files. I've already used a GIS program to cut Hungary's modern borders from the global image that the NOAA supplies. 
+
+```{r}
+hungary <-raster("~/Desktop/DFP/tif files/Hungary_lights_no0.tif")
+plot(hungary, main = "Nighttime Luminosity of Modern Hungary", xlab = "Latitude", ylab = "Longitude")
+```
+
+Here's a plot with finer grained binning for the luminosity measure. It'll come in handy later. 
+
+
+```{r}
+col = heat.colors(63)
+cellStats(hungary, range)
+image(hungary, col=col, xlab = "Latitude", ylab = "Longitude", main = "Nighttime Luminosity of Modern Hungary")
+```
+
+
+Looks good. The NOAA measurement is on a 0-100 scale. The main cluster in the center is Budapest, and lake Balaton is visible to the west. 
+
+Now for a sense of the distribution of luminosity. You can see below that the vast majority of points have very low light, with a few being much brighter. 
+
+```{r}
+hungary2 <- as.data.frame(hungary)
+hist(hungary2$Hungary_lights_no0, main = "Histogram of Nighttime Luminosity in Hungary", xlab = "Luminosity Measure")
+```
+
+The brightest regions are plotted below. 
+
+```{r}
+image(hungary, zlim=c(50,63), col=col, main = "Brightest Regions of Modern Hungary", xlab = "Latitude", ylab = "Longitude")
+```
+
+Now I reload the data as a stars object, to facilitate transformation to an sf object, and converting all the points to point geometries. 
+
+```{r}
+hungary_stars <- read_stars("~/Desktop/DFP/tif files/Hungary_lights_no0.tif")
+hungary.sf <- st_as_sf(hungary_stars, as_points = TRUE, merge = FALSE, long = TRUE, crs = 4326, coords = c("x", "y"))
+plot(hungary.sf, main = "Point Geometry Plot of Nighttime Luminosity", pch = 20)
+```
+
+Now for the discontinuity, the Danube river. Remember the whole analysis hinges on using this boundary. I already cut the shape using GIS software. 
+
+```{r}
+danube <- readOGR(dsn="/Users/andrewfox/Desktop/DFP/danube", layer="discont")
+plot(danube)
+danube.sf <- st_read("/Users/andrewfox/Desktop/DFP/danube", layer = "discont")
+ggplot()+geom_sf(data=danube.sf)
+```
+
+Now I load the elevation data, joining it with the luminosity data. Since the luminosity point geometries don't cover the entire country, I use the st_nearest_feature option to match each luminosity point with the closest elevation measure.  While there is some difference in elevation on either side of the Danube, it's note extreme. Including it in the regressions will allow us to control for this difference. 
+
+```{r}
+hungary_elev_stars <- read_stars("~/Desktop/DFP/tif files/Hungary_elevation.tif")
+plot(hungary_elev_stars)
+hungary.elev.sf <- st_as_sf(hungary_elev_stars, as_points = TRUE, merge = FALSE, long = TRUE, crs = 4326, coords = c("x", "y"))
+hungary.sf <- st_join(hungary.sf, hungary.elev.sf, join = st_nearest_feature)
+```
+
+I repeat the same procedure with population data, and soil quality data. I then code 
+
+```{r}
+hungary_pop_stars <- read_stars("~/Desktop/DFP/hungary.pop.tif")
+hungary.pop.sf <- st_as_sf(hungary_pop_stars, as_points = TRUE, merge = FALSE, long = TRUE, crs = 4326, coords = c("x", "y"))
+hungary.sf <- st_join(hungary.sf, hungary.pop.sf, join = st_nearest_feature)
+hungary_soil_stars <- read_stars("~/Desktop/DFP/soil.tif")
+hungary.soil.sf <- st_as_sf(hungary_soil_stars, as_points = TRUE, merge = FALSE, long = TRUE, crs = 4326, coords = c("x", "y"))
+hungary.sf <- st_join(hungary.sf, hungary.soil.sf, join = st_nearest_feature)
+```
+
+Just coding the soil variable as a proper factor variable...
+
+```{r}
+hungary.sf$soil.tf.f <- factor(hungary.sf$soil.tif)
+is.factor(hungary.sf$soil.tf.f)
+```
+
+I'll make a quick plot  to make sure the boundary looks right.
+
+```{r}
+plot(hungary, main = "Nighttime Luminosity of Modern Hungary with Boundary", xlab = "Latitude", ylab = "Longitude")
+plot(danube, add = TRUE)
+```
+
+Looks good! Now to import and plot the treatment polygon
+
+```{r}
+treat <- readOGR(dsn="/Users/andrewfox/Desktop/DFP/treatment", layer="treat")
+plot(hungary, main = "Nighttime Luminosity of Modern Hungary with Treatment", xlab = "Latitude", ylab = "Longitude")
+plot(treat, add = TRUE)
+```
+
+```{r}
+treat.sf <- st_read("/Users/andrewfox/Desktop/DFP/treatment", layer = "treat")
+ggplot()+geom_sf(data=treat.sf)
+```
+
+Now to make sure the coordinate systems are aligned for all thre .sf datasets
+```{r}
+st_crs(treat.sf) = 4326
+st_crs(hungary.sf) = 4326
+st_crs(danube.sf) = 4326
+```
+
+Assigning the treatment area
+```{r}
+hungary.sf$treated <- assign_treated(hungary.sf, treat.sf, id = "geometry")
+# a warning appears, but for this small area, it shouldn't be a problem
+summary(hungary.sf$treated)
+```
+```{r}
+hungary.sf$log_lights <- log(hungary.sf$Hungary_lights_no0.tif)
+```
+
+Finally here's a plot of all the variables over Hungary
+
+```{r}
+plot(hungary.sf)
+```
+
+
+
+first simple pooled binary variable regressions. From the estimated coefficient on the treatment area we can see that on average light levels are a bit lower in the transdanubian side of Hungary. 
+```{r}
+lm1 <- lm(log_lights ~ treated, data = hungary.sf)
+lm2 <- lm(log_lights ~ treated + Hungary_elevation.tif + hungary.pop.tif + soil.tf.f , data = hungary.sf)
+lm1
+lm2
+```
+
+Now I create a new variable measuring the distance to the cutoff. 
+
+
+```{r}
+hungary.sf$dist2cutoff <- as.numeric(sf::st_distance(hungary.sf, danube.sf))
+summary(hungary.sf$dist2cutoff)
+```
+
+Let's do a whole buncha regressions and display them below. 
+
+```{r}
+lm4 <- lm(log_lights ~ treated + Hungary_elevation.tif + hungary.pop.tif, data = hungary.sf[hungary.sf$dist2cutoff < 5000, ])
+lm5 <- lm(log_lights ~ treated + Hungary_elevation.tif + hungary.pop.tif + soil.tf.f, data = hungary.sf[hungary.sf$dist2cutoff < 10000, ])
+lm6 <- lm(log_lights ~ treated + Hungary_elevation.tif + hungary.pop.tif + soil.tf.f, data = hungary.sf[hungary.sf$dist2cutoff < 3000, ]) 
+lm7 <- lm(log_lights ~ treated + Hungary_elevation.tif + hungary.pop.tif + soil.tf.f, data = hungary.sf[hungary.sf$dist2cutoff < 5000, ])
+lm8 <- lm(log_lights ~ treated + Hungary_elevation.tif + hungary.pop.tif + soil.tf.f, data = hungary.sf[hungary.sf$dist2cutoff < 10000, ])
+
+lm4
+lm5
+lm6
+lm7
+lm8
+```
+
+A basic linear regression on a binary variable using the treatment area shows that on average there is lower luminosity on the Roman side of the Danube, while linear regressions with a buffer around the Danube of 3, 5, and 10 km show the effect of being on the Roman side is positive and significant. The linear regression results are in table 2. Elevation and population have small but significant effects.
+
+```{r}
+lm3 <- lm(Hungary_lights_no0.tif ~ treated, data = hungary.sf[hungary.sf$dist2cutoff < 15000, ])
+coef(summary(lm3))[, "Std. Error"]
+```
+
+To prepare for the true spatial RDD, I'll recenter at zero
+
+```{r}
+hungary.sf$distrunning <- hungary.sf$dist2cutoff
+hungary.sf$distrunning[hungary.sf$treated == 0] <- -1 * hungary.sf$distrunning[hungary.sf$treated == 0]
+ggplot(data = hungary.sf, aes(x = distrunning, y = Hungary_lights_no0.tif)) + geom_point() + geom_vline(xintercept = 0, col = "red")
+```
+
+Now some "naive" RDD with local linear estimation
+
+```{r}
+covs1 <- cbind(hungary.sf$Hungary_elevation.tif, hungary.sf$hungary.pop.tif)
+covs2 <- cbind(hungary.sf$Hungary_elevation.tif, hungary.sf$hungary.pop.tif, hungary.sf$soil.tf.f)
+rd1 <- rdrobust(hungary.sf$log_lights, hungary.sf$distrunning, c = 0)
+rd1.1 <- rdrobust(hungary.sf$log_lights, hungary.sf$distrunning, c = 0, p = 2)
+rd2 <- rdrobust(hungary.sf$log_lights, hungary.sf$distrunning, covs = hungary.sf$Hungary_elevation.tif, c = 0)
+rd3 <- rdrobust(hungary.sf$log_lights, hungary.sf$distrunning, covs = covs1, c = 0)
+rd4 <- rdrobust(hungary.sf$log_lights, hungary.sf$distrunning, covs = covs2, c = 0)
+rd5 <- rdrobust(hungary.sf$log_lights, hungary.sf$distrunning, covs = covs1, c = 0, p=2)
+rd6 <- rdrobust(hungary.sf$log_lights, hungary.sf$distrunning, covs = covs2, c = 0, p =2)
+summary(rd1)
+summary(rd1.1)
+summary(rd2)
+summary(rd3)
+summary(rd4)
+summary(rd5)
+summary(rd6)
+```
+
+Well, that was cool. You can see that now all the estimated coefficients on the treatment area are positive. Now for some RD plots. 
+
+```{r}
+rdplot(hungary.sf$log_lights, hungary.sf$distrunning, covs = covs2, c = 0, p =2,
+       y.label = "Luminosity", x.label = "distance to border")
+
+rdplot(hungary.sf$log_lights, hungary.sf$distrunning, covs = covs2, c = 0, p =1,
+       y.label = "Luminosity", x.label = "distance to border")
+
+rdplot(hungary.sf$log_lights, hungary.sf$distrunning, covs = covs2, c = 0, p =6, h = 60,
+       y.label = "Luminosity", x.label = "distance to border")
+
+rdplot(hungary.sf$Hungary_lights_no0.tif, hungary.sf$distrunning, c = 0, ci = 95, 
+       kernel = "triangular", y.label = "Luminosity", x.label = "distance to border")
+
+```
+
+The second plot in particular suggests that linear regression on either side reveals the positive discontinuity at the Danube. 
+
+For a more precise look, I discretize the border line I cut earlier, first every 6km, then every 1. 
+
+```{r}
+borderpoints.sf <- discretise_border(cutoff = danube.sf, n = 50)
+borderpoints.sf$id <- 1:nrow(borderpoints.sf)
+borderpoints.sf2 <- discretise_border(cutoff = danube.sf, n = 10)
+borderpoints.sf2$id <- 1:nrow(borderpoints.sf2)
+```
+
+Finally by looping over boundary points with spatialrd(), with 50 sections, I'll produce non-parametric estimates of the treatment effect
+
+```{r}
+bdd1 <- spatialrd(y = "log_lights", data = hungary.sf, cutoff.points = borderpoints.sf, 
+treated = "treated", minobs = 10, spatial.object = T)
+knitr::kable(bdd1)
+bdd2 <- spatialrd(y = "log_lights", data = hungary.sf, cutoff.points = borderpoints.sf, 
+                  treated = "treated", minobs = 10, covs = covs1, spatial.object = T)
+```
+
+my little laptop had trouble running the third regression, but it isn't used in the paper, so I'll present the RD plots for the first two
+
+```{r}
+plotspatialrd(bdd1, map = T)
+plotspatialrd(bdd2, map = T)
+```
+
+Average treatment effects are calculated below
+
+```{r}
+mean(bdd1$Estimate)
+mean(bdd1$pvalR)
+mean(bdd2$Estimate)
+mean(bdd2$pvalR)
+```
+
+Poisson regressions
+
+```{r}
+m1 <- glm(Hungary_lights_no0.tif ~ treated + Hungary_elevation.tif + hungary.pop.tif + soil.tf.f, family="poisson", data=hungary.sf)
+
+m2 <- glm(Hungary_lights_no0.tif ~ treated + Hungary_elevation.tif 
+          + hungary.pop.tif + soil.tf.f, family="poisson", data=hungary.sf[hungary.sf$dist2cutoff < 3000, ])
+
+m3 <- glm(Hungary_lights_no0.tif ~ treated + Hungary_elevation.tif 
+          + hungary.pop.tif + soil.tf.f, family="poisson", data=hungary.sf[hungary.sf$dist2cutoff < 5000, ])
+
+m4 <- glm(Hungary_lights_no0.tif ~ treated + Hungary_elevation.tif 
+          + hungary.pop.tif + soil.tf.f, family="poisson", data=hungary.sf[hungary.sf$dist2cutoff < 10000, ])
+```
+
+The actual estimates aren't very informative, so I'll display the marginal estimates instead. Once again, we see a negative marginal effect for the entirety of Hungary. However, restricting the regressions to bands of 3, 5, and 10 km around the cutoff leads to positive and statistically significant coefficients on the treatment variable. Marginal increases are calculated at 2­4 luminosity counts along the right bank within the Roman area, from the 1­63 count measure produced by the NOAA.
+
+```{r}
+margins(m1)
+margins(m2)
+margins(m3)
+margins(m4)
+```
+
+
+
+
