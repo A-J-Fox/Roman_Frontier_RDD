@@ -1,6 +1,8 @@
 ---
 title: "R Notebook"
-output: html_notebook
+output:
+  pdf_document: default
+  html_notebook: default
 ---
 
 
@@ -23,9 +25,9 @@ library(margins)
 
 How long does history leave its mark on economic development? This notebook accompanies a paper exploring that question for the region of transdanubia in modern Hungary using a spatial RDD with NOAA luminosity data. The results suggest a causal link between the area of modern Hungary settled by the Romans and modern economic development in Europe. The concentration of settlement along the right bank, coupled with the continuity between the Roman and modern road systems are highly suggestive of increased economic development on the Roman side, and I hypothesize that continuity between the ancient roads and modern roadways despite the waves of invasions in late antiquity explains the "headstart" given to western Hungary. See the paper for more historical background. 
 
-The Roman settlement of Western Hungary is potentially a nice quasi-experiment in the long run impact of infrastructure. I run robust linear regressions, and then the danube boundary is used to run naive RDD with het­ eroskedasticity robust errors and data generated bandwidths, and finally fully spatial BDD regressions. Recentered distance to the Danube is used for the running variable in all discontinuity regressions. Since the luminosity data is a skewed distribution of discrete counts, I also run GLM Poisson regressions to predict luminosity levels in the Roman area.
+The Roman settlement of Western Hungary is potentially a nice quasi-experiment in the long run impact of infrastructure. I run robust linear regressions, and then the danube boundary is used to run naive RDD with het? eroskedasticity robust errors and data generated bandwidths, and finally fully spatial BDD regressions. Recentered distance to the Danube is used for the running variable in all discontinuity regressions. Since the luminosity data is a skewed distribution of discrete counts, I also run GLM Poisson regressions to predict luminosity levels in the Roman area.
 The unit of analysis is the 30 arc second pixel. I conduct all preliminary geospatial work in QGIS. The luminosity raster data is clipped to Hungaryâ€™s modern borders, and a vector shapefile representing the course of the Danube used to cut a line representing the boundary discontinuity, roughly following the center of the river. I create a polygon representing the treatment area of Transdanubia as can be seen in figure 4.
-I convert each pixel representing luminosity to a point at its centroid. Using the poly­ gon representing the treatment area I then generate a binary variable for each luminosity point value. Then I calculate the closest distance between each point and the boundary line, re­centering the distances so that 0 represented the Danube boundary. Figure 6 illustrates each of these steps.
+I convert each pixel representing luminosity to a point at its centroid. Using the poly? gon representing the treatment area I then generate a binary variable for each luminosity point value. Then I calculate the closest distance between each point and the boundary line, re?centering the distances so that 0 represented the Danube boundary. Figure 6 illustrates each of these steps.
 
 
 The first thing to do is to load the .tif satellite imagery files. I've already used a GIS program to cut Hungary's modern borders from the global image that the NOAA supplies. 
@@ -286,7 +288,7 @@ m4 <- glm(Hungary_lights_no0.tif ~ treated + Hungary_elevation.tif
           + hungary.pop.tif + soil.tf.f, family="poisson", data=hungary.sf[hungary.sf$dist2cutoff < 10000, ])
 ```
 
-The actual estimates aren't very informative, so I'll display the marginal estimates instead. Once again, we see a negative marginal effect for the entirety of Hungary. However, restricting the regressions to bands of 3, 5, and 10 km around the cutoff leads to positive and statistically significant coefficients on the treatment variable. Marginal increases are calculated at 2­4 luminosity counts along the right bank within the Roman area, from the 1­63 count measure produced by the NOAA.
+The actual estimates aren't very informative, so I'll display the marginal estimates instead. Once again, we see a negative marginal effect for the entirety of Hungary. However, restricting the regressions to bands of 3, 5, and 10 km around the cutoff leads to positive and statistically significant coefficients on the treatment variable. Marginal increases are calculated at 2?4 luminosity counts along the right bank within the Roman area, from the 1?63 count measure produced by the NOAA.
 
 ```{r}
 margins(m1)

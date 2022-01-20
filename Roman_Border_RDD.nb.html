@@ -1742,29 +1742,415 @@ pre code {
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0bWFwKVxuYGBgIn0= -->
 <pre class="r"><code>library(tmap)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiVGhlcmUgd2VyZSA1MCBvciBtb3JlIHdhcm5pbmdzICh1c2Ugd2FybmluZ3MoKSB0byBzZWUgdGhlIGZpcnN0IDUwKVxuIn0= -->
-<pre><code>There were 50 or more warnings (use warnings() to see the first 50)</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiUmVnaXN0ZXJlZCBTMyBtZXRob2Qgb3ZlcndyaXR0ZW4gYnkgJ2h0bWx3aWRnZXRzJzpcbiAgbWV0aG9kICAgICAgICAgICBmcm9tICAgICAgICAgXG4gIHByaW50Lmh0bWx3aWRnZXQgdG9vbHM6cnN0dWRpb1xuIn0= -->
+<pre><code>Registered S3 method overwritten by 'htmlwidgets':
+  method           from         
+  print.htmlwidget tools:rstudio</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShtYXB0b29scylcbmxpYnJhcnkocmFzdGVyKVxubGlicmFyeShTcGF0aWFsUkREKVxubGlicmFyeShnZ3Bsb3QyKVxubGlicmFyeShzZilcbmxpYnJhcnkoc3RhcnMpXG5saWJyYXJ5KHJnZGFsKVxubGlicmFyeShyZHJvYnVzdClcbmxpYnJhcnkoeHRhYmxlKVxubGlicmFyeShzdGFyZ2F6ZXIpXG5saWJyYXJ5KGx3Z2VvbSlcbmxpYnJhcnkobWFyZ2lucylcbmBgYCJ9 -->
-<pre class="r"><code>library(maptools)
-library(raster)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShtYXB0b29scylcbmBgYCJ9 -->
+<pre class="r"><code>library(maptools)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiTG9hZGluZyByZXF1aXJlZCBwYWNrYWdlOiBzcFxuQ2hlY2tpbmcgcmdlb3MgYXZhaWxhYmlsaXR5OiBGQUxTRVxuIFx0Tm90ZTogd2hlbiByZ2VvcyBpcyBub3QgYXZhaWxhYmxlLCBwb2x5Z29uIGdlb21ldHJ5IFx0Y29tcHV0YXRpb25zIGluIG1hcHRvb2xzIGRlcGVuZCBvbiBncGNsaWIsXG4gXHR3aGljaCBoYXMgYSByZXN0cmljdGVkIGxpY2VuY2UuIEl0IGlzIGRpc2FibGVkIGJ5IGRlZmF1bHQ7XG4gXHR0byBlbmFibGUgZ3BjbGliLCB0eXBlIGdwY2xpYlBlcm1pdCgpXG4ifQ== -->
+<pre><code>Loading required package: sp
+Checking rgeos availability: FALSE
+    Note: when rgeos is not available, polygon geometry     computations in maptools depend on gpclib,
+    which has a restricted licence. It is disabled by default;
+    to enable gpclib, type gpclibPermit()</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShyYXN0ZXIpXG5saWJyYXJ5KFNwYXRpYWxSREQpXG5saWJyYXJ5KGdncGxvdDIpXG5saWJyYXJ5KHNmKVxuYGBgIn0= -->
+<pre class="r"><code>library(raster)
 library(SpatialRDD)
 library(ggplot2)
-library(sf)
-library(stars)
-library(rgdal)
-library(rdrobust)
-library(xtable)
-library(stargazer)
-library(lwgeom)
-library(margins)</code></pre>
+library(sf)</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiTGlua2luZyB0byBHRU9TIDMuNy4yLCBHREFMIDIuNC4yLCBQUk9KIDUuMi4wXG4ifQ== -->
+<pre><code>Linking to GEOS 3.7.2, GDAL 2.4.2, PROJ 5.2.0</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShzdGFycylcbmBgYCJ9 -->
+<pre class="r"><code>library(stars)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiTG9hZGluZyByZXF1aXJlZCBwYWNrYWdlOiBhYmluZFxuIn0= -->
+<pre><code>Loading required package: abind</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShyZ2RhbClcbmBgYCJ9 -->
+<pre class="r"><code>library(rgdal)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoicmdkYWw6IHZlcnNpb246IDEuNS0yMywgKFNWTiByZXZpc2lvbiAxMTIxKVxuR2Vvc3BhdGlhbCBEYXRhIEFic3RyYWN0aW9uIExpYnJhcnkgZXh0ZW5zaW9ucyB0byBSIHN1Y2Nlc3NmdWxseSBsb2FkZWRcbkxvYWRlZCBHREFMIHJ1bnRpbWU6IEdEQUwgMi40LjIsIHJlbGVhc2VkIDIwMTkvMDYvMjhcblBhdGggdG8gR0RBTCBzaGFyZWQgZmlsZXM6IC9MaWJyYXJ5L0ZyYW1ld29ya3MvUi5mcmFtZXdvcmsvVmVyc2lvbnMvMy42L1Jlc291cmNlcy9saWJyYXJ5L3JnZGFsL2dkYWxcbkdEQUwgYmluYXJ5IGJ1aWx0IHdpdGggR0VPUzogRkFMU0UgXG5Mb2FkZWQgUFJPSiBydW50aW1lOiBSZWwuIDUuMi4wLCBTZXB0ZW1iZXIgMTV0aCwgMjAxOCwgW1BKX1ZFUlNJT046IDUyMF1cblBhdGggdG8gUFJPSiBzaGFyZWQgZmlsZXM6IC9MaWJyYXJ5L0ZyYW1ld29ya3MvUi5mcmFtZXdvcmsvVmVyc2lvbnMvMy42L1Jlc291cmNlcy9saWJyYXJ5L3JnZGFsL3Byb2pcbkxpbmtpbmcgdG8gc3AgdmVyc2lvbjoxLjQtNVxuT3ZlcndyaXR0ZW4gUFJPSl9MSUIgd2FzIC9MaWJyYXJ5L0ZyYW1ld29ya3MvUi5mcmFtZXdvcmsvVmVyc2lvbnMvMy42L1Jlc291cmNlcy9saWJyYXJ5L3JnZGFsL3Byb2pcbiJ9 -->
+<pre><code>rgdal: version: 1.5-23, (SVN revision 1121)
+Geospatial Data Abstraction Library extensions to R successfully loaded
+Loaded GDAL runtime: GDAL 2.4.2, released 2019/06/28
+Path to GDAL shared files: /Library/Frameworks/R.framework/Versions/3.6/Resources/library/rgdal/gdal
+GDAL binary built with GEOS: FALSE 
+Loaded PROJ runtime: Rel. 5.2.0, September 15th, 2018, [PJ_VERSION: 520]
+Path to PROJ shared files: /Library/Frameworks/R.framework/Versions/3.6/Resources/library/rgdal/proj
+Linking to sp version:1.4-5
+Overwritten PROJ_LIB was /Library/Frameworks/R.framework/Versions/3.6/Resources/library/rgdal/proj</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShyZHJvYnVzdClcbmxpYnJhcnkoeHRhYmxlKVxuYGBgIn0= -->
+<pre class="r"><code>library(rdrobust)
+library(xtable)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hpbmcgcGFja2FnZTog4oCYeHRhYmxl4oCZXG5cblRoZSBmb2xsb3dpbmcgb2JqZWN0IGlzIG1hc2tlZCBmcm9tIOKAmHBhY2thZ2U6bWFwdG9vbHPigJk6XG5cbiAgICBsYWJlbFxuIn0= -->
+<pre><code>
+Attaching package: ‘xtable’
+
+The following object is masked from ‘package:maptools’:
+
+    label</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShzdGFyZ2F6ZXIpXG5gYGAifQ== -->
+<pre class="r"><code>library(stargazer)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5QbGVhc2UgY2l0ZSBhczogXG5cbiBIbGF2YWMsIE1hcmVrICgyMDE4KS4gc3RhcmdhemVyOiBXZWxsLUZvcm1hdHRlZCBSZWdyZXNzaW9uIGFuZCBTdW1tYXJ5IFN0YXRpc3RpY3MgVGFibGVzLlxuIFIgcGFja2FnZSB2ZXJzaW9uIDUuMi4yLiBodHRwczovL0NSQU4uUi1wcm9qZWN0Lm9yZy9wYWNrYWdlPXN0YXJnYXplciBcbiJ9 -->
+<pre><code>
+Please cite as: 
+
+ Hlavac, Marek (2018). stargazer: Well-Formatted Regression and Summary Statistics Tables.
+ R package version 5.2.2. https://CRAN.R-project.org/package=stargazer </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShsd2dlb20pXG5gYGAifQ== -->
+<pre class="r"><code>library(lwgeom)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiTGlua2luZyB0byBsaWJsd2dlb20gMy4wLjBiZXRhMSByMTYwMTYsIEdFT1MgMy43LjIsIFBST0ogNS4yLjBcbiJ9 -->
+<pre><code>Linking to liblwgeom 3.0.0beta1 r16016, GEOS 3.7.2, PROJ 5.2.0</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShtYXJnaW5zKVxuYGBgIn0= -->
+<pre class="r"><code>library(margins)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiUmVnaXN0ZXJlZCBTMyBtZXRob2Qgb3ZlcndyaXR0ZW4gYnkgJ2RhdGEudGFibGUnOlxuICBtZXRob2QgICAgICAgICAgIGZyb21cbiAgcHJpbnQuZGF0YS50YWJsZSAgICAgXG4ifQ== -->
+<pre><code>Registered S3 method overwritten by 'data.table':
+  method           from
+  print.data.table     </code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>How long does history leave its mark on economic development? This notebook accompanies a paper exploring that question for the region of transdanubia in modern Hungary using a spatial RDD with NOAA luminosity data. The results suggest a causal link between the area of modern Hungary settled by the Romans and modern economic development in Europe. The concentration of settlement along the right bank, coupled with the continuity between the Roman and modern road systems are highly suggestive of increased economic development on the Roman side, and I hypothesize that continuity between the ancient roads and modern roadways despite the waves of invasions in late antiquity explains the “headstart” given to western Hungary. See the paper for more historical background.</p>
-<p>The Roman settlement of Western Hungary is potentially a nice quasi-experiment in the long run impact of infrastructure. I run robust linear regressions, and then the danube boundary is used to run naive RDD with het</p>
+<p>The Roman settlement of Western Hungary is potentially a nice quasi-experiment in the long run impact of infrastructure. I run robust linear regressions, and then the danube boundary is used to run naive RDD with het? eroskedasticity robust errors and data generated bandwidths, and finally fully spatial BDD regressions. Recentered distance to the Danube is used for the running variable in all discontinuity regressions. Since the luminosity data is a skewed distribution of discrete counts, I also run GLM Poisson regressions to predict luminosity levels in the Roman area. The unit of analysis is the 30 arc second pixel. I conduct all preliminary geospatial work in QGIS. The luminosity raster data is clipped to Hungary’s modern borders, and a vector shapefile representing the course of the Danube used to cut a line representing the boundary discontinuity, roughly following the center of the river. I create a polygon representing the treatment area of Transdanubia as can be seen in figure 4. I convert each pixel representing luminosity to a point at its centroid. Using the poly? gon representing the treatment area I then generate a binary variable for each luminosity point value. Then I calculate the closest distance between each point and the boundary line, re?centering the distances so that 0 represented the Danube boundary. Figure 6 illustrates each of these steps.</p>
+<p>The first thing to do is to load the .tif satellite imagery files. I’ve already used a GIS program to cut Hungary’s modern borders from the global image that the NOAA supplies.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaHVuZ2FyeSA8LXJhc3RlcihcIn4vRGVza3RvcC9ERlAvdGlmIGZpbGVzL0h1bmdhcnlfbGlnaHRzX25vMC50aWZcIilcbnBsb3QoaHVuZ2FyeSwgbWFpbiA9IFwiTmlnaHR0aW1lIEx1bWlub3NpdHkgb2YgTW9kZXJuIEh1bmdhcnlcIiwgeGxhYiA9IFwiTGF0aXR1ZGVcIiwgeWxhYiA9IFwiTG9uZ2l0dWRlXCIpXG5gYGAifQ== -->
+<pre class="r"><code>hungary &lt;-raster(&quot;~/Desktop/DFP/tif files/Hungary_lights_no0.tif&quot;)
+plot(hungary, main = &quot;Nighttime Luminosity of Modern Hungary&quot;, xlab = &quot;Latitude&quot;, ylab = &quot;Longitude&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Here’s a plot with finer grained binning for the luminosity measure. It’ll come in handy later.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY29sID0gaGVhdC5jb2xvcnMoNjMpXG5jZWxsU3RhdHMoaHVuZ2FyeSwgcmFuZ2UpXG5pbWFnZShodW5nYXJ5LCBjb2w9Y29sLCB4bGFiID0gXCJMYXRpdHVkZVwiLCB5bGFiID0gXCJMb25naXR1ZGVcIiwgbWFpbiA9IFwiTmlnaHR0aW1lIEx1bWlub3NpdHkgb2YgTW9kZXJuIEh1bmdhcnlcIilcbmBgYCJ9 -->
+<pre class="r"><code>col = heat.colors(63)
+cellStats(hungary, range)
+image(hungary, col=col, xlab = &quot;Latitude&quot;, ylab = &quot;Longitude&quot;, main = &quot;Nighttime Luminosity of Modern Hungary&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Looks good. The NOAA measurement is on a 0-100 scale. The main cluster in the center is Budapest, and lake Balaton is visible to the west.</p>
+<p>Now for a sense of the distribution of luminosity. You can see below that the vast majority of points have very low light, with a few being much brighter.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaHVuZ2FyeTIgPC0gYXMuZGF0YS5mcmFtZShodW5nYXJ5KVxuaGlzdChodW5nYXJ5MiRIdW5nYXJ5X2xpZ2h0c19ubzAsIG1haW4gPSBcIkhpc3RvZ3JhbSBvZiBOaWdodHRpbWUgTHVtaW5vc2l0eSBpbiBIdW5nYXJ5XCIsIHhsYWIgPSBcIkx1bWlub3NpdHkgTWVhc3VyZVwiKVxuYGBgIn0= -->
+<pre class="r"><code>hungary2 &lt;- as.data.frame(hungary)
+hist(hungary2$Hungary_lights_no0, main = &quot;Histogram of Nighttime Luminosity in Hungary&quot;, xlab = &quot;Luminosity Measure&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>The brightest regions are plotted below.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaW1hZ2UoaHVuZ2FyeSwgemxpbT1jKDUwLDYzKSwgY29sPWNvbCwgbWFpbiA9IFwiQnJpZ2h0ZXN0IFJlZ2lvbnMgb2YgTW9kZXJuIEh1bmdhcnlcIiwgeGxhYiA9IFwiTGF0aXR1ZGVcIiwgeWxhYiA9IFwiTG9uZ2l0dWRlXCIpXG5gYGAifQ== -->
+<pre class="r"><code>image(hungary, zlim=c(50,63), col=col, main = &quot;Brightest Regions of Modern Hungary&quot;, xlab = &quot;Latitude&quot;, ylab = &quot;Longitude&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Now I reload the data as a stars object, to facilitate transformation to an sf object, and converting all the points to point geometries.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaHVuZ2FyeV9zdGFycyA8LSByZWFkX3N0YXJzKFwifi9EZXNrdG9wL0RGUC90aWYgZmlsZXMvSHVuZ2FyeV9saWdodHNfbm8wLnRpZlwiKVxuaHVuZ2FyeS5zZiA8LSBzdF9hc19zZihodW5nYXJ5X3N0YXJzLCBhc19wb2ludHMgPSBUUlVFLCBtZXJnZSA9IEZBTFNFLCBsb25nID0gVFJVRSwgY3JzID0gNDMyNiwgY29vcmRzID0gYyhcInhcIiwgXCJ5XCIpKVxucGxvdChodW5nYXJ5LnNmLCBtYWluID0gXCJQb2ludCBHZW9tZXRyeSBQbG90IG9mIE5pZ2h0dGltZSBMdW1pbm9zaXR5XCIsIHBjaCA9IDIwKVxuYGBgIn0= -->
+<pre class="r"><code>hungary_stars &lt;- read_stars(&quot;~/Desktop/DFP/tif files/Hungary_lights_no0.tif&quot;)
+hungary.sf &lt;- st_as_sf(hungary_stars, as_points = TRUE, merge = FALSE, long = TRUE, crs = 4326, coords = c(&quot;x&quot;, &quot;y&quot;))
+plot(hungary.sf, main = &quot;Point Geometry Plot of Nighttime Luminosity&quot;, pch = 20)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Now for the discontinuity, the Danube river. Remember the whole analysis hinges on using this boundary. I already cut the shape using GIS software.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGFudWJlIDwtIHJlYWRPR1IoZHNuPVwiL1VzZXJzL2FuZHJld2ZveC9EZXNrdG9wL0RGUC9kYW51YmVcIiwgbGF5ZXI9XCJkaXNjb250XCIpXG5wbG90KGRhbnViZSlcbmRhbnViZS5zZiA8LSBzdF9yZWFkKFwiL1VzZXJzL2FuZHJld2ZveC9EZXNrdG9wL0RGUC9kYW51YmVcIiwgbGF5ZXIgPSBcImRpc2NvbnRcIilcbmdncGxvdCgpK2dlb21fc2YoZGF0YT1kYW51YmUuc2YpXG5gYGAifQ== -->
+<pre class="r"><code>danube &lt;- readOGR(dsn=&quot;/Users/andrewfox/Desktop/DFP/danube&quot;, layer=&quot;discont&quot;)
+plot(danube)
+danube.sf &lt;- st_read(&quot;/Users/andrewfox/Desktop/DFP/danube&quot;, layer = &quot;discont&quot;)
+ggplot()+geom_sf(data=danube.sf)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Now I load the elevation data, joining it with the luminosity data. Since the luminosity point geometries don’t cover the entire country, I use the st_nearest_feature option to match each luminosity point with the closest elevation measure. While there is some difference in elevation on either side of the Danube, it’s note extreme. Including it in the regressions will allow us to control for this difference.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaHVuZ2FyeV9lbGV2X3N0YXJzIDwtIHJlYWRfc3RhcnMoXCJ+L0Rlc2t0b3AvREZQL3RpZiBmaWxlcy9IdW5nYXJ5X2VsZXZhdGlvbi50aWZcIilcbnBsb3QoaHVuZ2FyeV9lbGV2X3N0YXJzKVxuaHVuZ2FyeS5lbGV2LnNmIDwtIHN0X2FzX3NmKGh1bmdhcnlfZWxldl9zdGFycywgYXNfcG9pbnRzID0gVFJVRSwgbWVyZ2UgPSBGQUxTRSwgbG9uZyA9IFRSVUUsIGNycyA9IDQzMjYsIGNvb3JkcyA9IGMoXCJ4XCIsIFwieVwiKSlcbmh1bmdhcnkuc2YgPC0gc3Rfam9pbihodW5nYXJ5LnNmLCBodW5nYXJ5LmVsZXYuc2YsIGpvaW4gPSBzdF9uZWFyZXN0X2ZlYXR1cmUpXG5gYGAifQ== -->
+<pre class="r"><code>hungary_elev_stars &lt;- read_stars(&quot;~/Desktop/DFP/tif files/Hungary_elevation.tif&quot;)
+plot(hungary_elev_stars)
+hungary.elev.sf &lt;- st_as_sf(hungary_elev_stars, as_points = TRUE, merge = FALSE, long = TRUE, crs = 4326, coords = c(&quot;x&quot;, &quot;y&quot;))
+hungary.sf &lt;- st_join(hungary.sf, hungary.elev.sf, join = st_nearest_feature)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>I repeat the same procedure with population data, and soil quality data. I then code</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaHVuZ2FyeV9wb3Bfc3RhcnMgPC0gcmVhZF9zdGFycyhcIn4vRGVza3RvcC9ERlAvaHVuZ2FyeS5wb3AudGlmXCIpXG5odW5nYXJ5LnBvcC5zZiA8LSBzdF9hc19zZihodW5nYXJ5X3BvcF9zdGFycywgYXNfcG9pbnRzID0gVFJVRSwgbWVyZ2UgPSBGQUxTRSwgbG9uZyA9IFRSVUUsIGNycyA9IDQzMjYsIGNvb3JkcyA9IGMoXCJ4XCIsIFwieVwiKSlcbmh1bmdhcnkuc2YgPC0gc3Rfam9pbihodW5nYXJ5LnNmLCBodW5nYXJ5LnBvcC5zZiwgam9pbiA9IHN0X25lYXJlc3RfZmVhdHVyZSlcbmh1bmdhcnlfc29pbF9zdGFycyA8LSByZWFkX3N0YXJzKFwifi9EZXNrdG9wL0RGUC9zb2lsLnRpZlwiKVxuaHVuZ2FyeS5zb2lsLnNmIDwtIHN0X2FzX3NmKGh1bmdhcnlfc29pbF9zdGFycywgYXNfcG9pbnRzID0gVFJVRSwgbWVyZ2UgPSBGQUxTRSwgbG9uZyA9IFRSVUUsIGNycyA9IDQzMjYsIGNvb3JkcyA9IGMoXCJ4XCIsIFwieVwiKSlcbmh1bmdhcnkuc2YgPC0gc3Rfam9pbihodW5nYXJ5LnNmLCBodW5nYXJ5LnNvaWwuc2YsIGpvaW4gPSBzdF9uZWFyZXN0X2ZlYXR1cmUpXG5gYGAifQ== -->
+<pre class="r"><code>hungary_pop_stars &lt;- read_stars(&quot;~/Desktop/DFP/hungary.pop.tif&quot;)
+hungary.pop.sf &lt;- st_as_sf(hungary_pop_stars, as_points = TRUE, merge = FALSE, long = TRUE, crs = 4326, coords = c(&quot;x&quot;, &quot;y&quot;))
+hungary.sf &lt;- st_join(hungary.sf, hungary.pop.sf, join = st_nearest_feature)
+hungary_soil_stars &lt;- read_stars(&quot;~/Desktop/DFP/soil.tif&quot;)
+hungary.soil.sf &lt;- st_as_sf(hungary_soil_stars, as_points = TRUE, merge = FALSE, long = TRUE, crs = 4326, coords = c(&quot;x&quot;, &quot;y&quot;))
+hungary.sf &lt;- st_join(hungary.sf, hungary.soil.sf, join = st_nearest_feature)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Just coding the soil variable as a proper factor variable…</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaHVuZ2FyeS5zZiRzb2lsLnRmLmYgPC0gZmFjdG9yKGh1bmdhcnkuc2Ykc29pbC50aWYpXG5pcy5mYWN0b3IoaHVuZ2FyeS5zZiRzb2lsLnRmLmYpXG5gYGAifQ== -->
+<pre class="r"><code>hungary.sf$soil.tf.f &lt;- factor(hungary.sf$soil.tif)
+is.factor(hungary.sf$soil.tf.f)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>I’ll make a quick plot to make sure the boundary looks right.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucGxvdChodW5nYXJ5LCBtYWluID0gXCJOaWdodHRpbWUgTHVtaW5vc2l0eSBvZiBNb2Rlcm4gSHVuZ2FyeSB3aXRoIEJvdW5kYXJ5XCIsIHhsYWIgPSBcIkxhdGl0dWRlXCIsIHlsYWIgPSBcIkxvbmdpdHVkZVwiKVxucGxvdChkYW51YmUsIGFkZCA9IFRSVUUpXG5gYGAifQ== -->
+<pre class="r"><code>plot(hungary, main = &quot;Nighttime Luminosity of Modern Hungary with Boundary&quot;, xlab = &quot;Latitude&quot;, ylab = &quot;Longitude&quot;)
+plot(danube, add = TRUE)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Looks good! Now to import and plot the treatment polygon</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudHJlYXQgPC0gcmVhZE9HUihkc249XCIvVXNlcnMvYW5kcmV3Zm94L0Rlc2t0b3AvREZQL3RyZWF0bWVudFwiLCBsYXllcj1cInRyZWF0XCIpXG5wbG90KGh1bmdhcnksIG1haW4gPSBcIk5pZ2h0dGltZSBMdW1pbm9zaXR5IG9mIE1vZGVybiBIdW5nYXJ5IHdpdGggVHJlYXRtZW50XCIsIHhsYWIgPSBcIkxhdGl0dWRlXCIsIHlsYWIgPSBcIkxvbmdpdHVkZVwiKVxucGxvdCh0cmVhdCwgYWRkID0gVFJVRSlcbmBgYCJ9 -->
+<pre class="r"><code>treat &lt;- readOGR(dsn=&quot;/Users/andrewfox/Desktop/DFP/treatment&quot;, layer=&quot;treat&quot;)
+plot(hungary, main = &quot;Nighttime Luminosity of Modern Hungary with Treatment&quot;, xlab = &quot;Latitude&quot;, ylab = &quot;Longitude&quot;)
+plot(treat, add = TRUE)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudHJlYXQuc2YgPC0gc3RfcmVhZChcIi9Vc2Vycy9hbmRyZXdmb3gvRGVza3RvcC9ERlAvdHJlYXRtZW50XCIsIGxheWVyID0gXCJ0cmVhdFwiKVxuZ2dwbG90KCkrZ2VvbV9zZihkYXRhPXRyZWF0LnNmKVxuYGBgIn0= -->
+<pre class="r"><code>treat.sf &lt;- st_read(&quot;/Users/andrewfox/Desktop/DFP/treatment&quot;, layer = &quot;treat&quot;)
+ggplot()+geom_sf(data=treat.sf)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Now to make sure the coordinate systems are aligned for all thre .sf datasets</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3RfY3JzKHRyZWF0LnNmKSA9IDQzMjZcbnN0X2NycyhodW5nYXJ5LnNmKSA9IDQzMjZcbnN0X2NycyhkYW51YmUuc2YpID0gNDMyNlxuYGBgIn0= -->
+<pre class="r"><code>st_crs(treat.sf) = 4326
+st_crs(hungary.sf) = 4326
+st_crs(danube.sf) = 4326</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Assigning the treatment area</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaHVuZ2FyeS5zZiR0cmVhdGVkIDwtIGFzc2lnbl90cmVhdGVkKGh1bmdhcnkuc2YsIHRyZWF0LnNmLCBpZCA9IFwiZ2VvbWV0cnlcIilcbiMgYSB3YXJuaW5nIGFwcGVhcnMsIGJ1dCBmb3IgdGhpcyBzbWFsbCBhcmVhLCBpdCBzaG91bGRuJ3QgYmUgYSBwcm9ibGVtXG5zdW1tYXJ5KGh1bmdhcnkuc2YkdHJlYXRlZClcbmBgYCJ9 -->
+<pre class="r"><code>hungary.sf$treated &lt;- assign_treated(hungary.sf, treat.sf, id = &quot;geometry&quot;)
+# a warning appears, but for this small area, it shouldn't be a problem
+summary(hungary.sf$treated)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaHVuZ2FyeS5zZiRsb2dfbGlnaHRzIDwtIGxvZyhodW5nYXJ5LnNmJEh1bmdhcnlfbGlnaHRzX25vMC50aWYpXG5gYGAifQ== -->
+<pre class="r"><code>hungary.sf$log_lights &lt;- log(hungary.sf$Hungary_lights_no0.tif)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Finally here’s a plot of all the variables over Hungary</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucGxvdChodW5nYXJ5LnNmKVxuYGBgIn0= -->
+<pre class="r"><code>plot(hungary.sf)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>first simple pooled binary variable regressions. From the estimated coefficient on the treatment area we can see that on average light levels are a bit lower in the transdanubian side of Hungary.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubG0xIDwtIGxtKGxvZ19saWdodHMgfiB0cmVhdGVkLCBkYXRhID0gaHVuZ2FyeS5zZilcbmxtMiA8LSBsbShsb2dfbGlnaHRzIH4gdHJlYXRlZCArIEh1bmdhcnlfZWxldmF0aW9uLnRpZiArIGh1bmdhcnkucG9wLnRpZiArIHNvaWwudGYuZiAsIGRhdGEgPSBodW5nYXJ5LnNmKVxubG0xXG5sbTJcbmBgYCJ9 -->
+<pre class="r"><code>lm1 &lt;- lm(log_lights ~ treated, data = hungary.sf)
+lm2 &lt;- lm(log_lights ~ treated + Hungary_elevation.tif + hungary.pop.tif + soil.tf.f , data = hungary.sf)
+lm1
+lm2</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Now I create a new variable measuring the distance to the cutoff.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaHVuZ2FyeS5zZiRkaXN0MmN1dG9mZiA8LSBhcy5udW1lcmljKHNmOjpzdF9kaXN0YW5jZShodW5nYXJ5LnNmLCBkYW51YmUuc2YpKVxuc3VtbWFyeShodW5nYXJ5LnNmJGRpc3QyY3V0b2ZmKVxuYGBgIn0= -->
+<pre class="r"><code>hungary.sf$dist2cutoff &lt;- as.numeric(sf::st_distance(hungary.sf, danube.sf))
+summary(hungary.sf$dist2cutoff)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Let’s do a whole buncha regressions and display them below.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubG00IDwtIGxtKGxvZ19saWdodHMgfiB0cmVhdGVkICsgSHVuZ2FyeV9lbGV2YXRpb24udGlmICsgaHVuZ2FyeS5wb3AudGlmLCBkYXRhID0gaHVuZ2FyeS5zZltodW5nYXJ5LnNmJGRpc3QyY3V0b2ZmIDwgNTAwMCwgXSlcbmxtNSA8LSBsbShsb2dfbGlnaHRzIH4gdHJlYXRlZCArIEh1bmdhcnlfZWxldmF0aW9uLnRpZiArIGh1bmdhcnkucG9wLnRpZiArIHNvaWwudGYuZiwgZGF0YSA9IGh1bmdhcnkuc2ZbaHVuZ2FyeS5zZiRkaXN0MmN1dG9mZiA8IDEwMDAwLCBdKVxubG02IDwtIGxtKGxvZ19saWdodHMgfiB0cmVhdGVkICsgSHVuZ2FyeV9lbGV2YXRpb24udGlmICsgaHVuZ2FyeS5wb3AudGlmICsgc29pbC50Zi5mLCBkYXRhID0gaHVuZ2FyeS5zZltodW5nYXJ5LnNmJGRpc3QyY3V0b2ZmIDwgMzAwMCwgXSkgXG5sbTcgPC0gbG0obG9nX2xpZ2h0cyB+IHRyZWF0ZWQgKyBIdW5nYXJ5X2VsZXZhdGlvbi50aWYgKyBodW5nYXJ5LnBvcC50aWYgKyBzb2lsLnRmLmYsIGRhdGEgPSBodW5nYXJ5LnNmW2h1bmdhcnkuc2YkZGlzdDJjdXRvZmYgPCA1MDAwLCBdKVxubG04IDwtIGxtKGxvZ19saWdodHMgfiB0cmVhdGVkICsgSHVuZ2FyeV9lbGV2YXRpb24udGlmICsgaHVuZ2FyeS5wb3AudGlmICsgc29pbC50Zi5mLCBkYXRhID0gaHVuZ2FyeS5zZltodW5nYXJ5LnNmJGRpc3QyY3V0b2ZmIDwgMTAwMDAsIF0pXG5cbmxtNFxubG01XG5sbTZcbmxtN1xubG04XG5gYGAifQ== -->
+<pre class="r"><code>lm4 &lt;- lm(log_lights ~ treated + Hungary_elevation.tif + hungary.pop.tif, data = hungary.sf[hungary.sf$dist2cutoff &lt; 5000, ])
+lm5 &lt;- lm(log_lights ~ treated + Hungary_elevation.tif + hungary.pop.tif + soil.tf.f, data = hungary.sf[hungary.sf$dist2cutoff &lt; 10000, ])
+lm6 &lt;- lm(log_lights ~ treated + Hungary_elevation.tif + hungary.pop.tif + soil.tf.f, data = hungary.sf[hungary.sf$dist2cutoff &lt; 3000, ]) 
+lm7 &lt;- lm(log_lights ~ treated + Hungary_elevation.tif + hungary.pop.tif + soil.tf.f, data = hungary.sf[hungary.sf$dist2cutoff &lt; 5000, ])
+lm8 &lt;- lm(log_lights ~ treated + Hungary_elevation.tif + hungary.pop.tif + soil.tf.f, data = hungary.sf[hungary.sf$dist2cutoff &lt; 10000, ])
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKCgpgYGB7cn0KbGlicmFyeSh0bWFwKQpsaWJyYXJ5KG1hcHRvb2xzKQpsaWJyYXJ5KHJhc3RlcikKbGlicmFyeShTcGF0aWFsUkREKQpsaWJyYXJ5KGdncGxvdDIpCmxpYnJhcnkoc2YpCmxpYnJhcnkoc3RhcnMpCmxpYnJhcnkocmdkYWwpCmxpYnJhcnkocmRyb2J1c3QpCmxpYnJhcnkoeHRhYmxlKQpsaWJyYXJ5KHN0YXJnYXplcikKbGlicmFyeShsd2dlb20pCmxpYnJhcnkobWFyZ2lucykKYGBgCgpIb3cgbG9uZyBkb2VzIGhpc3RvcnkgbGVhdmUgaXRzIG1hcmsgb24gZWNvbm9taWMgZGV2ZWxvcG1lbnQ/IFRoaXMgbm90ZWJvb2sgYWNjb21wYW5pZXMgYSBwYXBlciBleHBsb3JpbmcgdGhhdCBxdWVzdGlvbiBmb3IgdGhlIHJlZ2lvbiBvZiB0cmFuc2RhbnViaWEgaW4gbW9kZXJuIEh1bmdhcnkgdXNpbmcgYSBzcGF0aWFsIFJERCB3aXRoIE5PQUEgbHVtaW5vc2l0eSBkYXRhLiBUaGUgcmVzdWx0cyBzdWdnZXN0IGEgY2F1c2FsIGxpbmsgYmV0d2VlbiB0aGUgYXJlYSBvZiBtb2Rlcm4gSHVuZ2FyeSBzZXR0bGVkIGJ5IHRoZSBSb21hbnMgYW5kIG1vZGVybiBlY29ub21pYyBkZXZlbG9wbWVudCBpbiBFdXJvcGUuIFRoZSBjb25jZW50cmF0aW9uIG9mIHNldHRsZW1lbnQgYWxvbmcgdGhlIHJpZ2h0IGJhbmssIGNvdXBsZWQgd2l0aCB0aGUgY29udGludWl0eSBiZXR3ZWVuIHRoZSBSb21hbiBhbmQgbW9kZXJuIHJvYWQgc3lzdGVtcyBhcmUgaGlnaGx5IHN1Z2dlc3RpdmUgb2YgaW5jcmVhc2VkIGVjb25vbWljIGRldmVsb3BtZW50IG9uIHRoZSBSb21hbiBzaWRlLCBhbmQgSSBoeXBvdGhlc2l6ZSB0aGF0IGNvbnRpbnVpdHkgYmV0d2VlbiB0aGUgYW5jaWVudCByb2FkcyBhbmQgbW9kZXJuIHJvYWR3YXlzIGRlc3BpdGUgdGhlIHdhdmVzIG9mIGludmFzaW9ucyBpbiBsYXRlIGFudGlxdWl0eSBleHBsYWlucyB0aGUgImhlYWRzdGFydCIgZ2l2ZW4gdG8gd2VzdGVybiBIdW5nYXJ5LiBTZWUgdGhlIHBhcGVyIGZvciBtb3JlIGhpc3RvcmljYWwgYmFja2dyb3VuZC4gCgpUaGUgUm9tYW4gc2V0dGxlbWVudCBvZiBXZXN0ZXJuIEh1bmdhcnkgaXMgcG90ZW50aWFsbHkgYSBuaWNlIHF1YXNpLWV4cGVyaW1lbnQgaW4gdGhlIGxvbmcgcnVuIGltcGFjdCBvZiBpbmZyYXN0cnVjdHVyZS4gSSBydW4gcm9idXN0IGxpbmVhciByZWdyZXNzaW9ucywgYW5kIHRoZW4gdGhlIGRhbnViZSBib3VuZGFyeSBpcyB1c2VkIHRvIHJ1biBuYWl2ZSBSREQgd2l0aCBoZXStIGVyb3NrZWRhc3RpY2l0eSByb2J1c3QgZXJyb3JzIGFuZCBkYXRhIGdlbmVyYXRlZCBiYW5kd2lkdGhzLCBhbmQgZmluYWxseSBmdWxseSBzcGF0aWFsIEJERCByZWdyZXNzaW9ucy4gUmVjZW50ZXJlZCBkaXN0YW5jZSB0byB0aGUgRGFudWJlIGlzIHVzZWQgZm9yIHRoZSBydW5uaW5nIHZhcmlhYmxlIGluIGFsbCBkaXNjb250aW51aXR5IHJlZ3Jlc3Npb25zLiBTaW5jZSB0aGUgbHVtaW5vc2l0eSBkYXRhIGlzIGEgc2tld2VkIGRpc3RyaWJ1dGlvbiBvZiBkaXNjcmV0ZSBjb3VudHMsIEkgYWxzbyBydW4gR0xNIFBvaXNzb24gcmVncmVzc2lvbnMgdG8gcHJlZGljdCBsdW1pbm9zaXR5IGxldmVscyBpbiB0aGUgUm9tYW4gYXJlYS4KVGhlIHVuaXQgb2YgYW5hbHlzaXMgaXMgdGhlIDMwIGFyYyBzZWNvbmQgcGl4ZWwuIEkgY29uZHVjdCBhbGwgcHJlbGltaW5hcnkgZ2Vvc3BhdGlhbCB3b3JrIGluIFFHSVMuIFRoZSBsdW1pbm9zaXR5IHJhc3RlciBkYXRhIGlzIGNsaXBwZWQgdG8gSHVuZ2FyeeKAmXMgbW9kZXJuIGJvcmRlcnMsIGFuZCBhIHZlY3RvciBzaGFwZWZpbGUgcmVwcmVzZW50aW5nIHRoZSBjb3Vyc2Ugb2YgdGhlIERhbnViZSB1c2VkIHRvIGN1dCBhIGxpbmUgcmVwcmVzZW50aW5nIHRoZSBib3VuZGFyeSBkaXNjb250aW51aXR5LCByb3VnaGx5IGZvbGxvd2luZyB0aGUgY2VudGVyIG9mIHRoZSByaXZlci4gSSBjcmVhdGUgYSBwb2x5Z29uIHJlcHJlc2VudGluZyB0aGUgdHJlYXRtZW50IGFyZWEgb2YgVHJhbnNkYW51YmlhIGFzIGNhbiBiZSBzZWVuIGluIGZpZ3VyZSA0LgpJIGNvbnZlcnQgZWFjaCBwaXhlbCByZXByZXNlbnRpbmcgbHVtaW5vc2l0eSB0byBhIHBvaW50IGF0IGl0cyBjZW50cm9pZC4gVXNpbmcgdGhlIHBvbHmtIGdvbiByZXByZXNlbnRpbmcgdGhlIHRyZWF0bWVudCBhcmVhIEkgdGhlbiBnZW5lcmF0ZSBhIGJpbmFyeSB2YXJpYWJsZSBmb3IgZWFjaCBsdW1pbm9zaXR5IHBvaW50IHZhbHVlLiBUaGVuIEkgY2FsY3VsYXRlIHRoZSBjbG9zZXN0IGRpc3RhbmNlIGJldHdlZW4gZWFjaCBwb2ludCBhbmQgdGhlIGJvdW5kYXJ5IGxpbmUsIHJlrWNlbnRlcmluZyB0aGUgZGlzdGFuY2VzIHNvIHRoYXQgMCByZXByZXNlbnRlZCB0aGUgRGFudWJlIGJvdW5kYXJ5LiBGaWd1cmUgNiBpbGx1c3RyYXRlcyBlYWNoIG9mIHRoZXNlIHN0ZXBzLgoKClRoZSBmaXJzdCB0aGluZyB0byBkbyBpcyB0byBsb2FkIHRoZSAudGlmIHNhdGVsbGl0ZSBpbWFnZXJ5IGZpbGVzLiBJJ3ZlIGFscmVhZHkgdXNlZCBhIEdJUyBwcm9ncmFtIHRvIGN1dCBIdW5nYXJ5J3MgbW9kZXJuIGJvcmRlcnMgZnJvbSB0aGUgZ2xvYmFsIGltYWdlIHRoYXQgdGhlIE5PQUEgc3VwcGxpZXMuIAoKYGBge3J9Cmh1bmdhcnkgPC1yYXN0ZXIoIn4vRGVza3RvcC9ERlAvdGlmIGZpbGVzL0h1bmdhcnlfbGlnaHRzX25vMC50aWYiKQpwbG90KGh1bmdhcnksIG1haW4gPSAiTmlnaHR0aW1lIEx1bWlub3NpdHkgb2YgTW9kZXJuIEh1bmdhcnkiLCB4bGFiID0gIkxhdGl0dWRlIiwgeWxhYiA9ICJMb25naXR1ZGUiKQpgYGAKCkhlcmUncyBhIHBsb3Qgd2l0aCBmaW5lciBncmFpbmVkIGJpbm5pbmcgZm9yIHRoZSBsdW1pbm9zaXR5IG1lYXN1cmUuIEl0J2xsIGNvbWUgaW4gaGFuZHkgbGF0ZXIuIAoKCmBgYHtyfQpjb2wgPSBoZWF0LmNvbG9ycyg2MykKY2VsbFN0YXRzKGh1bmdhcnksIHJhbmdlKQppbWFnZShodW5nYXJ5LCBjb2w9Y29sLCB4bGFiID0gIkxhdGl0dWRlIiwgeWxhYiA9ICJMb25naXR1ZGUiLCBtYWluID0gIk5pZ2h0dGltZSBMdW1pbm9zaXR5IG9mIE1vZGVybiBIdW5nYXJ5IikKYGBgCgoKTG9va3MgZ29vZC4gVGhlIE5PQUEgbWVhc3VyZW1lbnQgaXMgb24gYSAwLTEwMCBzY2FsZS4gVGhlIG1haW4gY2x1c3RlciBpbiB0aGUgY2VudGVyIGlzIEJ1ZGFwZXN0LCBhbmQgbGFrZSBCYWxhdG9uIGlzIHZpc2libGUgdG8gdGhlIHdlc3QuIAoKTm93IGZvciBhIHNlbnNlIG9mIHRoZSBkaXN0cmlidXRpb24gb2YgbHVtaW5vc2l0eS4gWW91IGNhbiBzZWUgYmVsb3cgdGhhdCB0aGUgdmFzdCBtYWpvcml0eSBvZiBwb2ludHMgaGF2ZSB2ZXJ5IGxvdyBsaWdodCwgd2l0aCBhIGZldyBiZWluZyBtdWNoIGJyaWdodGVyLiAKCmBgYHtyfQpodW5nYXJ5MiA8LSBhcy5kYXRhLmZyYW1lKGh1bmdhcnkpCmhpc3QoaHVuZ2FyeTIkSHVuZ2FyeV9saWdodHNfbm8wLCBtYWluID0gIkhpc3RvZ3JhbSBvZiBOaWdodHRpbWUgTHVtaW5vc2l0eSBpbiBIdW5nYXJ5IiwgeGxhYiA9ICJMdW1pbm9zaXR5IE1lYXN1cmUiKQpgYGAKClRoZSBicmlnaHRlc3QgcmVnaW9ucyBhcmUgcGxvdHRlZCBiZWxvdy4gCgpgYGB7cn0KaW1hZ2UoaHVuZ2FyeSwgemxpbT1jKDUwLDYzKSwgY29sPWNvbCwgbWFpbiA9ICJCcmlnaHRlc3QgUmVnaW9ucyBvZiBNb2Rlcm4gSHVuZ2FyeSIsIHhsYWIgPSAiTGF0aXR1ZGUiLCB5bGFiID0gIkxvbmdpdHVkZSIpCmBgYAoKTm93IEkgcmVsb2FkIHRoZSBkYXRhIGFzIGEgc3RhcnMgb2JqZWN0LCB0byBmYWNpbGl0YXRlIHRyYW5zZm9ybWF0aW9uIHRvIGFuIHNmIG9iamVjdCwgYW5kIGNvbnZlcnRpbmcgYWxsIHRoZSBwb2ludHMgdG8gcG9pbnQgZ2VvbWV0cmllcy4gCgpgYGB7cn0KaHVuZ2FyeV9zdGFycyA8LSByZWFkX3N0YXJzKCJ+L0Rlc2t0b3AvREZQL3RpZiBmaWxlcy9IdW5nYXJ5X2xpZ2h0c19ubzAudGlmIikKaHVuZ2FyeS5zZiA8LSBzdF9hc19zZihodW5nYXJ5X3N0YXJzLCBhc19wb2ludHMgPSBUUlVFLCBtZXJnZSA9IEZBTFNFLCBsb25nID0gVFJVRSwgY3JzID0gNDMyNiwgY29vcmRzID0gYygieCIsICJ5IikpCnBsb3QoaHVuZ2FyeS5zZiwgbWFpbiA9ICJQb2ludCBHZW9tZXRyeSBQbG90IG9mIE5pZ2h0dGltZSBMdW1pbm9zaXR5IiwgcGNoID0gMjApCmBgYAoKTm93IGZvciB0aGUgZGlzY29udGludWl0eSwgdGhlIERhbnViZSByaXZlci4gUmVtZW1iZXIgdGhlIHdob2xlIGFuYWx5c2lzIGhpbmdlcyBvbiB1c2luZyB0aGlzIGJvdW5kYXJ5LiBJIGFscmVhZHkgY3V0IHRoZSBzaGFwZSB1c2luZyBHSVMgc29mdHdhcmUuIAoKYGBge3J9CmRhbnViZSA8LSByZWFkT0dSKGRzbj0iL1VzZXJzL2FuZHJld2ZveC9EZXNrdG9wL0RGUC9kYW51YmUiLCBsYXllcj0iZGlzY29udCIpCnBsb3QoZGFudWJlKQpkYW51YmUuc2YgPC0gc3RfcmVhZCgiL1VzZXJzL2FuZHJld2ZveC9EZXNrdG9wL0RGUC9kYW51YmUiLCBsYXllciA9ICJkaXNjb250IikKZ2dwbG90KCkrZ2VvbV9zZihkYXRhPWRhbnViZS5zZikKYGBgCgpOb3cgSSBsb2FkIHRoZSBlbGV2YXRpb24gZGF0YSwgam9pbmluZyBpdCB3aXRoIHRoZSBsdW1pbm9zaXR5IGRhdGEuIFNpbmNlIHRoZSBsdW1pbm9zaXR5IHBvaW50IGdlb21ldHJpZXMgZG9uJ3QgY292ZXIgdGhlIGVudGlyZSBjb3VudHJ5LCBJIHVzZSB0aGUgc3RfbmVhcmVzdF9mZWF0dXJlIG9wdGlvbiB0byBtYXRjaCBlYWNoIGx1bWlub3NpdHkgcG9pbnQgd2l0aCB0aGUgY2xvc2VzdCBlbGV2YXRpb24gbWVhc3VyZS4gIFdoaWxlIHRoZXJlIGlzIHNvbWUgZGlmZmVyZW5jZSBpbiBlbGV2YXRpb24gb24gZWl0aGVyIHNpZGUgb2YgdGhlIERhbnViZSwgaXQncyBub3RlIGV4dHJlbWUuIEluY2x1ZGluZyBpdCBpbiB0aGUgcmVncmVzc2lvbnMgd2lsbCBhbGxvdyB1cyB0byBjb250cm9sIGZvciB0aGlzIGRpZmZlcmVuY2UuIAoKYGBge3J9Cmh1bmdhcnlfZWxldl9zdGFycyA8LSByZWFkX3N0YXJzKCJ+L0Rlc2t0b3AvREZQL3RpZiBmaWxlcy9IdW5nYXJ5X2VsZXZhdGlvbi50aWYiKQpwbG90KGh1bmdhcnlfZWxldl9zdGFycykKaHVuZ2FyeS5lbGV2LnNmIDwtIHN0X2FzX3NmKGh1bmdhcnlfZWxldl9zdGFycywgYXNfcG9pbnRzID0gVFJVRSwgbWVyZ2UgPSBGQUxTRSwgbG9uZyA9IFRSVUUsIGNycyA9IDQzMjYsIGNvb3JkcyA9IGMoIngiLCAieSIpKQpodW5nYXJ5LnNmIDwtIHN0X2pvaW4oaHVuZ2FyeS5zZiwgaHVuZ2FyeS5lbGV2LnNmLCBqb2luID0gc3RfbmVhcmVzdF9mZWF0dXJlKQpgYGAKCkkgcmVwZWF0IHRoZSBzYW1lIHByb2NlZHVyZSB3aXRoIHBvcHVsYXRpb24gZGF0YSwgYW5kIHNvaWwgcXVhbGl0eSBkYXRhLiBJIHRoZW4gY29kZSAKCmBgYHtyfQpodW5nYXJ5X3BvcF9zdGFycyA8LSByZWFkX3N0YXJzKCJ+L0Rlc2t0b3AvREZQL2h1bmdhcnkucG9wLnRpZiIpCmh1bmdhcnkucG9wLnNmIDwtIHN0X2FzX3NmKGh1bmdhcnlfcG9wX3N0YXJzLCBhc19wb2ludHMgPSBUUlVFLCBtZXJnZSA9IEZBTFNFLCBsb25nID0gVFJVRSwgY3JzID0gNDMyNiwgY29vcmRzID0gYygieCIsICJ5IikpCmh1bmdhcnkuc2YgPC0gc3Rfam9pbihodW5nYXJ5LnNmLCBodW5nYXJ5LnBvcC5zZiwgam9pbiA9IHN0X25lYXJlc3RfZmVhdHVyZSkKaHVuZ2FyeV9zb2lsX3N0YXJzIDwtIHJlYWRfc3RhcnMoIn4vRGVza3RvcC9ERlAvc29pbC50aWYiKQpodW5nYXJ5LnNvaWwuc2YgPC0gc3RfYXNfc2YoaHVuZ2FyeV9zb2lsX3N0YXJzLCBhc19wb2ludHMgPSBUUlVFLCBtZXJnZSA9IEZBTFNFLCBsb25nID0gVFJVRSwgY3JzID0gNDMyNiwgY29vcmRzID0gYygieCIsICJ5IikpCmh1bmdhcnkuc2YgPC0gc3Rfam9pbihodW5nYXJ5LnNmLCBodW5nYXJ5LnNvaWwuc2YsIGpvaW4gPSBzdF9uZWFyZXN0X2ZlYXR1cmUpCmBgYAoKSnVzdCBjb2RpbmcgdGhlIHNvaWwgdmFyaWFibGUgYXMgYSBwcm9wZXIgZmFjdG9yIHZhcmlhYmxlLi4uCgpgYGB7cn0KaHVuZ2FyeS5zZiRzb2lsLnRmLmYgPC0gZmFjdG9yKGh1bmdhcnkuc2Ykc29pbC50aWYpCmlzLmZhY3RvcihodW5nYXJ5LnNmJHNvaWwudGYuZikKYGBgCgpJJ2xsIG1ha2UgYSBxdWljayBwbG90ICB0byBtYWtlIHN1cmUgdGhlIGJvdW5kYXJ5IGxvb2tzIHJpZ2h0LgoKYGBge3J9CnBsb3QoaHVuZ2FyeSwgbWFpbiA9ICJOaWdodHRpbWUgTHVtaW5vc2l0eSBvZiBNb2Rlcm4gSHVuZ2FyeSB3aXRoIEJvdW5kYXJ5IiwgeGxhYiA9ICJMYXRpdHVkZSIsIHlsYWIgPSAiTG9uZ2l0dWRlIikKcGxvdChkYW51YmUsIGFkZCA9IFRSVUUpCmBgYAoKTG9va3MgZ29vZCEgTm93IHRvIGltcG9ydCBhbmQgcGxvdCB0aGUgdHJlYXRtZW50IHBvbHlnb24KCmBgYHtyfQp0cmVhdCA8LSByZWFkT0dSKGRzbj0iL1VzZXJzL2FuZHJld2ZveC9EZXNrdG9wL0RGUC90cmVhdG1lbnQiLCBsYXllcj0idHJlYXQiKQpwbG90KGh1bmdhcnksIG1haW4gPSAiTmlnaHR0aW1lIEx1bWlub3NpdHkgb2YgTW9kZXJuIEh1bmdhcnkgd2l0aCBUcmVhdG1lbnQiLCB4bGFiID0gIkxhdGl0dWRlIiwgeWxhYiA9ICJMb25naXR1ZGUiKQpwbG90KHRyZWF0LCBhZGQgPSBUUlVFKQpgYGAKCmBgYHtyfQp0cmVhdC5zZiA8LSBzdF9yZWFkKCIvVXNlcnMvYW5kcmV3Zm94L0Rlc2t0b3AvREZQL3RyZWF0bWVudCIsIGxheWVyID0gInRyZWF0IikKZ2dwbG90KCkrZ2VvbV9zZihkYXRhPXRyZWF0LnNmKQpgYGAKCk5vdyB0byBtYWtlIHN1cmUgdGhlIGNvb3JkaW5hdGUgc3lzdGVtcyBhcmUgYWxpZ25lZCBmb3IgYWxsIHRocmUgLnNmIGRhdGFzZXRzCmBgYHtyfQpzdF9jcnModHJlYXQuc2YpID0gNDMyNgpzdF9jcnMoaHVuZ2FyeS5zZikgPSA0MzI2CnN0X2NycyhkYW51YmUuc2YpID0gNDMyNgpgYGAKCkFzc2lnbmluZyB0aGUgdHJlYXRtZW50IGFyZWEKYGBge3J9Cmh1bmdhcnkuc2YkdHJlYXRlZCA8LSBhc3NpZ25fdHJlYXRlZChodW5nYXJ5LnNmLCB0cmVhdC5zZiwgaWQgPSAiZ2VvbWV0cnkiKQojIGEgd2FybmluZyBhcHBlYXJzLCBidXQgZm9yIHRoaXMgc21hbGwgYXJlYSwgaXQgc2hvdWxkbid0IGJlIGEgcHJvYmxlbQpzdW1tYXJ5KGh1bmdhcnkuc2YkdHJlYXRlZCkKYGBgCmBgYHtyfQpodW5nYXJ5LnNmJGxvZ19saWdodHMgPC0gbG9nKGh1bmdhcnkuc2YkSHVuZ2FyeV9saWdodHNfbm8wLnRpZikKYGBgCgpGaW5hbGx5IGhlcmUncyBhIHBsb3Qgb2YgYWxsIHRoZSB2YXJpYWJsZXMgb3ZlciBIdW5nYXJ5CgpgYGB7cn0KcGxvdChodW5nYXJ5LnNmKQpgYGAKCgoKZmlyc3Qgc2ltcGxlIHBvb2xlZCBiaW5hcnkgdmFyaWFibGUgcmVncmVzc2lvbnMuIEZyb20gdGhlIGVzdGltYXRlZCBjb2VmZmljaWVudCBvbiB0aGUgdHJlYXRtZW50IGFyZWEgd2UgY2FuIHNlZSB0aGF0IG9uIGF2ZXJhZ2UgbGlnaHQgbGV2ZWxzIGFyZSBhIGJpdCBsb3dlciBpbiB0aGUgdHJhbnNkYW51YmlhbiBzaWRlIG9mIEh1bmdhcnkuIApgYGB7cn0KbG0xIDwtIGxtKGxvZ19saWdodHMgfiB0cmVhdGVkLCBkYXRhID0gaHVuZ2FyeS5zZikKbG0yIDwtIGxtKGxvZ19saWdodHMgfiB0cmVhdGVkICsgSHVuZ2FyeV9lbGV2YXRpb24udGlmICsgaHVuZ2FyeS5wb3AudGlmICsgc29pbC50Zi5mICwgZGF0YSA9IGh1bmdhcnkuc2YpCmxtMQpsbTIKYGBgCgpOb3cgSSBjcmVhdGUgYSBuZXcgdmFyaWFibGUgbWVhc3VyaW5nIHRoZSBkaXN0YW5jZSB0byB0aGUgY3V0b2ZmLiAKCgpgYGB7cn0KaHVuZ2FyeS5zZiRkaXN0MmN1dG9mZiA8LSBhcy5udW1lcmljKHNmOjpzdF9kaXN0YW5jZShodW5nYXJ5LnNmLCBkYW51YmUuc2YpKQpzdW1tYXJ5KGh1bmdhcnkuc2YkZGlzdDJjdXRvZmYpCmBgYAoKTGV0J3MgZG8gYSB3aG9sZSBidW5jaGEgcmVncmVzc2lvbnMgYW5kIGRpc3BsYXkgdGhlbSBiZWxvdy4gCgpgYGB7cn0KbG00IDwtIGxtKGxvZ19saWdodHMgfiB0cmVhdGVkICsgSHVuZ2FyeV9lbGV2YXRpb24udGlmICsgaHVuZ2FyeS5wb3AudGlmLCBkYXRhID0gaHVuZ2FyeS5zZltodW5nYXJ5LnNmJGRpc3QyY3V0b2ZmIDwgNTAwMCwgXSkKbG01IDwtIGxtKGxvZ19saWdodHMgfiB0cmVhdGVkICsgSHVuZ2FyeV9lbGV2YXRpb24udGlmICsgaHVuZ2FyeS5wb3AudGlmICsgc29pbC50Zi5mLCBkYXRhID0gaHVuZ2FyeS5zZltodW5nYXJ5LnNmJGRpc3QyY3V0b2ZmIDwgMTAwMDAsIF0pCmxtNiA8LSBsbShsb2dfbGlnaHRzIH4gdHJlYXRlZCArIEh1bmdhcnlfZWxldmF0aW9uLnRpZiArIGh1bmdhcnkucG9wLnRpZiArIHNvaWwudGYuZiwgZGF0YSA9IGh1bmdhcnkuc2ZbaHVuZ2FyeS5zZiRkaXN0MmN1dG9mZiA8IDMwMDAsIF0pIApsbTcgPC0gbG0obG9nX2xpZ2h0cyB+IHRyZWF0ZWQgKyBIdW5nYXJ5X2VsZXZhdGlvbi50aWYgKyBodW5nYXJ5LnBvcC50aWYgKyBzb2lsLnRmLmYsIGRhdGEgPSBodW5nYXJ5LnNmW2h1bmdhcnkuc2YkZGlzdDJjdXRvZmYgPCA1MDAwLCBdKQpsbTggPC0gbG0obG9nX2xpZ2h0cyB+IHRyZWF0ZWQgKyBIdW5nYXJ5X2VsZXZhdGlvbi50aWYgKyBodW5nYXJ5LnBvcC50aWYgKyBzb2lsLnRmLmYsIGRhdGEgPSBodW5nYXJ5LnNmW2h1bmdhcnkuc2YkZGlzdDJjdXRvZmYgPCAxMDAwMCwgXSkKCmxtNApsbTUKbG02CmxtNwpsbTgKYGBgCgpBIGJhc2ljIGxpbmVhciByZWdyZXNzaW9uIG9uIGEgYmluYXJ5IHZhcmlhYmxlIHVzaW5nIHRoZSB0cmVhdG1lbnQgYXJlYSBzaG93cyB0aGF0IG9uIGF2ZXJhZ2UgdGhlcmUgaXMgbG93ZXIgbHVtaW5vc2l0eSBvbiB0aGUgUm9tYW4gc2lkZSBvZiB0aGUgRGFudWJlLCB3aGlsZSBsaW5lYXIgcmVncmVzc2lvbnMgd2l0aCBhIGJ1ZmZlciBhcm91bmQgdGhlIERhbnViZSBvZiAzLCA1LCBhbmQgMTAga20gc2hvdyB0aGUgZWZmZWN0IG9mIGJlaW5nIG9uIHRoZSBSb21hbiBzaWRlIGlzIHBvc2l0aXZlIGFuZCBzaWduaWZpY2FudC4gVGhlIGxpbmVhciByZWdyZXNzaW9uIHJlc3VsdHMgYXJlIGluIHRhYmxlIDIuIEVsZXZhdGlvbiBhbmQgcG9wdWxhdGlvbiBoYXZlIHNtYWxsIGJ1dCBzaWduaWZpY2FudCBlZmZlY3RzLgoKYGBge3J9CmxtMyA8LSBsbShIdW5nYXJ5X2xpZ2h0c19ubzAudGlmIH4gdHJlYXRlZCwgZGF0YSA9IGh1bmdhcnkuc2ZbaHVuZ2FyeS5zZiRkaXN0MmN1dG9mZiA8IDE1MDAwLCBdKQpjb2VmKHN1bW1hcnkobG0zKSlbLCAiU3RkLiBFcnJvciJdCmBgYAoKVG8gcHJlcGFyZSBmb3IgdGhlIHRydWUgc3BhdGlhbCBSREQsIEknbGwgcmVjZW50ZXIgYXQgemVybwoKYGBge3J9Cmh1bmdhcnkuc2YkZGlzdHJ1bm5pbmcgPC0gaHVuZ2FyeS5zZiRkaXN0MmN1dG9mZgpodW5nYXJ5LnNmJGRpc3RydW5uaW5nW2h1bmdhcnkuc2YkdHJlYXRlZCA9PSAwXSA8LSAtMSAqIGh1bmdhcnkuc2YkZGlzdHJ1bm5pbmdbaHVuZ2FyeS5zZiR0cmVhdGVkID09IDBdCmdncGxvdChkYXRhID0gaHVuZ2FyeS5zZiwgYWVzKHggPSBkaXN0cnVubmluZywgeSA9IEh1bmdhcnlfbGlnaHRzX25vMC50aWYpKSArIGdlb21fcG9pbnQoKSArIGdlb21fdmxpbmUoeGludGVyY2VwdCA9IDAsIGNvbCA9ICJyZWQiKQpgYGAKCk5vdyBzb21lICJuYWl2ZSIgUkREIHdpdGggbG9jYWwgbGluZWFyIGVzdGltYXRpb24KCmBgYHtyfQpjb3ZzMSA8LSBjYmluZChodW5nYXJ5LnNmJEh1bmdhcnlfZWxldmF0aW9uLnRpZiwgaHVuZ2FyeS5zZiRodW5nYXJ5LnBvcC50aWYpCmNvdnMyIDwtIGNiaW5kKGh1bmdhcnkuc2YkSHVuZ2FyeV9lbGV2YXRpb24udGlmLCBodW5nYXJ5LnNmJGh1bmdhcnkucG9wLnRpZiwgaHVuZ2FyeS5zZiRzb2lsLnRmLmYpCnJkMSA8LSByZHJvYnVzdChodW5nYXJ5LnNmJGxvZ19saWdodHMsIGh1bmdhcnkuc2YkZGlzdHJ1bm5pbmcsIGMgPSAwKQpyZDEuMSA8LSByZHJvYnVzdChodW5nYXJ5LnNmJGxvZ19saWdodHMsIGh1bmdhcnkuc2YkZGlzdHJ1bm5pbmcsIGMgPSAwLCBwID0gMikKcmQyIDwtIHJkcm9idXN0KGh1bmdhcnkuc2YkbG9nX2xpZ2h0cywgaHVuZ2FyeS5zZiRkaXN0cnVubmluZywgY292cyA9IGh1bmdhcnkuc2YkSHVuZ2FyeV9lbGV2YXRpb24udGlmLCBjID0gMCkKcmQzIDwtIHJkcm9idXN0KGh1bmdhcnkuc2YkbG9nX2xpZ2h0cywgaHVuZ2FyeS5zZiRkaXN0cnVubmluZywgY292cyA9IGNvdnMxLCBjID0gMCkKcmQ0IDwtIHJkcm9idXN0KGh1bmdhcnkuc2YkbG9nX2xpZ2h0cywgaHVuZ2FyeS5zZiRkaXN0cnVubmluZywgY292cyA9IGNvdnMyLCBjID0gMCkKcmQ1IDwtIHJkcm9idXN0KGh1bmdhcnkuc2YkbG9nX2xpZ2h0cywgaHVuZ2FyeS5zZiRkaXN0cnVubmluZywgY292cyA9IGNvdnMxLCBjID0gMCwgcD0yKQpyZDYgPC0gcmRyb2J1c3QoaHVuZ2FyeS5zZiRsb2dfbGlnaHRzLCBodW5nYXJ5LnNmJGRpc3RydW5uaW5nLCBjb3ZzID0gY292czIsIGMgPSAwLCBwID0yKQpzdW1tYXJ5KHJkMSkKc3VtbWFyeShyZDEuMSkKc3VtbWFyeShyZDIpCnN1bW1hcnkocmQzKQpzdW1tYXJ5KHJkNCkKc3VtbWFyeShyZDUpCnN1bW1hcnkocmQ2KQpgYGAKCldlbGwsIHRoYXQgd2FzIGNvb2wuIFlvdSBjYW4gc2VlIHRoYXQgbm93IGFsbCB0aGUgZXN0aW1hdGVkIGNvZWZmaWNpZW50cyBvbiB0aGUgdHJlYXRtZW50IGFyZWEgYXJlIHBvc2l0aXZlLiBOb3cgZm9yIHNvbWUgUkQgcGxvdHMuIAoKYGBge3J9CnJkcGxvdChodW5nYXJ5LnNmJGxvZ19saWdodHMsIGh1bmdhcnkuc2YkZGlzdHJ1bm5pbmcsIGNvdnMgPSBjb3ZzMiwgYyA9IDAsIHAgPTIsCiAgICAgICB5LmxhYmVsID0gIkx1bWlub3NpdHkiLCB4LmxhYmVsID0gImRpc3RhbmNlIHRvIGJvcmRlciIpCgpyZHBsb3QoaHVuZ2FyeS5zZiRsb2dfbGlnaHRzLCBodW5nYXJ5LnNmJGRpc3RydW5uaW5nLCBjb3ZzID0gY292czIsIGMgPSAwLCBwID0xLAogICAgICAgeS5sYWJlbCA9ICJMdW1pbm9zaXR5IiwgeC5sYWJlbCA9ICJkaXN0YW5jZSB0byBib3JkZXIiKQoKcmRwbG90KGh1bmdhcnkuc2YkbG9nX2xpZ2h0cywgaHVuZ2FyeS5zZiRkaXN0cnVubmluZywgY292cyA9IGNvdnMyLCBjID0gMCwgcCA9NiwgaCA9IDYwLAogICAgICAgeS5sYWJlbCA9ICJMdW1pbm9zaXR5IiwgeC5sYWJlbCA9ICJkaXN0YW5jZSB0byBib3JkZXIiKQoKcmRwbG90KGh1bmdhcnkuc2YkSHVuZ2FyeV9saWdodHNfbm8wLnRpZiwgaHVuZ2FyeS5zZiRkaXN0cnVubmluZywgYyA9IDAsIGNpID0gOTUsIAogICAgICAga2VybmVsID0gInRyaWFuZ3VsYXIiLCB5LmxhYmVsID0gIkx1bWlub3NpdHkiLCB4LmxhYmVsID0gImRpc3RhbmNlIHRvIGJvcmRlciIpCgpgYGAKClRoZSBzZWNvbmQgcGxvdCBpbiBwYXJ0aWN1bGFyIHN1Z2dlc3RzIHRoYXQgbGluZWFyIHJlZ3Jlc3Npb24gb24gZWl0aGVyIHNpZGUgcmV2ZWFscyB0aGUgcG9zaXRpdmUgZGlzY29udGludWl0eSBhdCB0aGUgRGFudWJlLiAKCkZvciBhIG1vcmUgcHJlY2lzZSBsb29rLCBJIGRpc2NyZXRpemUgdGhlIGJvcmRlciBsaW5lIEkgY3V0IGVhcmxpZXIsIGZpcnN0IGV2ZXJ5IDZrbSwgdGhlbiBldmVyeSAxLiAKCmBgYHtyfQpib3JkZXJwb2ludHMuc2YgPC0gZGlzY3JldGlzZV9ib3JkZXIoY3V0b2ZmID0gZGFudWJlLnNmLCBuID0gNTApCmJvcmRlcnBvaW50cy5zZiRpZCA8LSAxOm5yb3coYm9yZGVycG9pbnRzLnNmKQpib3JkZXJwb2ludHMuc2YyIDwtIGRpc2NyZXRpc2VfYm9yZGVyKGN1dG9mZiA9IGRhbnViZS5zZiwgbiA9IDEwKQpib3JkZXJwb2ludHMuc2YyJGlkIDwtIDE6bnJvdyhib3JkZXJwb2ludHMuc2YyKQpgYGAKCkZpbmFsbHkgYnkgbG9vcGluZyBvdmVyIGJvdW5kYXJ5IHBvaW50cyB3aXRoIHNwYXRpYWxyZCgpLCB3aXRoIDUwIHNlY3Rpb25zLCBJJ2xsIHByb2R1Y2Ugbm9uLXBhcmFtZXRyaWMgZXN0aW1hdGVzIG9mIHRoZSB0cmVhdG1lbnQgZWZmZWN0CgpgYGB7cn0KYmRkMSA8LSBzcGF0aWFscmQoeSA9ICJsb2dfbGlnaHRzIiwgZGF0YSA9IGh1bmdhcnkuc2YsIGN1dG9mZi5wb2ludHMgPSBib3JkZXJwb2ludHMuc2YsIAp0cmVhdGVkID0gInRyZWF0ZWQiLCBtaW5vYnMgPSAxMCwgc3BhdGlhbC5vYmplY3QgPSBUKQprbml0cjo6a2FibGUoYmRkMSkKYmRkMiA8LSBzcGF0aWFscmQoeSA9ICJsb2dfbGlnaHRzIiwgZGF0YSA9IGh1bmdhcnkuc2YsIGN1dG9mZi5wb2ludHMgPSBib3JkZXJwb2ludHMuc2YsIAogICAgICAgICAgICAgICAgICB0cmVhdGVkID0gInRyZWF0ZWQiLCBtaW5vYnMgPSAxMCwgY292cyA9IGNvdnMxLCBzcGF0aWFsLm9iamVjdCA9IFQpCmBgYAoKbXkgbGl0dGxlIGxhcHRvcCBoYWQgdHJvdWJsZSBydW5uaW5nIHRoZSB0aGlyZCByZWdyZXNzaW9uLCBidXQgaXQgaXNuJ3QgdXNlZCBpbiB0aGUgcGFwZXIsIHNvIEknbGwgcHJlc2VudCB0aGUgUkQgcGxvdHMgZm9yIHRoZSBmaXJzdCB0d28KCmBgYHtyfQpwbG90c3BhdGlhbHJkKGJkZDEsIG1hcCA9IFQpCnBsb3RzcGF0aWFscmQoYmRkMiwgbWFwID0gVCkKYGBgCgpBdmVyYWdlIHRyZWF0bWVudCBlZmZlY3RzIGFyZSBjYWxjdWxhdGVkIGJlbG93CgpgYGB7cn0KbWVhbihiZGQxJEVzdGltYXRlKQptZWFuKGJkZDEkcHZhbFIpCm1lYW4oYmRkMiRFc3RpbWF0ZSkKbWVhbihiZGQyJHB2YWxSKQpgYGAKClBvaXNzb24gcmVncmVzc2lvbnMKCmBgYHtyfQptMSA8LSBnbG0oSHVuZ2FyeV9saWdodHNfbm8wLnRpZiB+IHRyZWF0ZWQgKyBIdW5nYXJ5X2VsZXZhdGlvbi50aWYgKyBodW5nYXJ5LnBvcC50aWYgKyBzb2lsLnRmLmYsIGZhbWlseT0icG9pc3NvbiIsIGRhdGE9aHVuZ2FyeS5zZikKCm0yIDwtIGdsbShIdW5nYXJ5X2xpZ2h0c19ubzAudGlmIH4gdHJlYXRlZCArIEh1bmdhcnlfZWxldmF0aW9uLnRpZiAKICAgICAgICAgICsgaHVuZ2FyeS5wb3AudGlmICsgc29pbC50Zi5mLCBmYW1pbHk9InBvaXNzb24iLCBkYXRhPWh1bmdhcnkuc2ZbaHVuZ2FyeS5zZiRkaXN0MmN1dG9mZiA8IDMwMDAsIF0pCgptMyA8LSBnbG0oSHVuZ2FyeV9saWdodHNfbm8wLnRpZiB+IHRyZWF0ZWQgKyBIdW5nYXJ5X2VsZXZhdGlvbi50aWYgCiAgICAgICAgICArIGh1bmdhcnkucG9wLnRpZiArIHNvaWwudGYuZiwgZmFtaWx5PSJwb2lzc29uIiwgZGF0YT1odW5nYXJ5LnNmW2h1bmdhcnkuc2YkZGlzdDJjdXRvZmYgPCA1MDAwLCBdKQoKbTQgPC0gZ2xtKEh1bmdhcnlfbGlnaHRzX25vMC50aWYgfiB0cmVhdGVkICsgSHVuZ2FyeV9lbGV2YXRpb24udGlmIAogICAgICAgICAgKyBodW5nYXJ5LnBvcC50aWYgKyBzb2lsLnRmLmYsIGZhbWlseT0icG9pc3NvbiIsIGRhdGE9aHVuZ2FyeS5zZltodW5nYXJ5LnNmJGRpc3QyY3V0b2ZmIDwgMTAwMDAsIF0pCmBgYAoKVGhlIGFjdHVhbCBlc3RpbWF0ZXMgYXJlbid0IHZlcnkgaW5mb3JtYXRpdmUsIHNvIEknbGwgZGlzcGxheSB0aGUgbWFyZ2luYWwgZXN0aW1hdGVzIGluc3RlYWQuIE9uY2UgYWdhaW4sIHdlIHNlZSBhIG5lZ2F0aXZlIG1hcmdpbmFsIGVmZmVjdCBmb3IgdGhlIGVudGlyZXR5IG9mIEh1bmdhcnkuIEhvd2V2ZXIsIHJlc3RyaWN0aW5nIHRoZSByZWdyZXNzaW9ucyB0byBiYW5kcyBvZiAzLCA1LCBhbmQgMTAga20gYXJvdW5kIHRoZSBjdXRvZmYgbGVhZHMgdG8gcG9zaXRpdmUgYW5kIHN0YXRpc3RpY2FsbHkgc2lnbmlmaWNhbnQgY29lZmZpY2llbnRzIG9uIHRoZSB0cmVhdG1lbnQgdmFyaWFibGUuIE1hcmdpbmFsIGluY3JlYXNlcyBhcmUgY2FsY3VsYXRlZCBhdCAyrTQgbHVtaW5vc2l0eSBjb3VudHMgYWxvbmcgdGhlIHJpZ2h0IGJhbmsgd2l0aGluIHRoZSBSb21hbiBhcmVhLCBmcm9tIHRoZSAxrTYzIGNvdW50IG1lYXN1cmUgcHJvZHVjZWQgYnkgdGhlIE5PQUEuCgpgYGB7cn0KbWFyZ2lucyhtMSkKbWFyZ2lucyhtMikKbWFyZ2lucyhtMykKbWFyZ2lucyhtNCkKYGBgCgoKCgo=</div>
+lm4
+lm5
+lm6
+lm7
+lm8</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>A basic linear regression on a binary variable using the treatment area shows that on average there is lower luminosity on the Roman side of the Danube, while linear regressions with a buffer around the Danube of 3, 5, and 10 km show the effect of being on the Roman side is positive and significant. The linear regression results are in table 2. Elevation and population have small but significant effects.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubG0zIDwtIGxtKEh1bmdhcnlfbGlnaHRzX25vMC50aWYgfiB0cmVhdGVkLCBkYXRhID0gaHVuZ2FyeS5zZltodW5nYXJ5LnNmJGRpc3QyY3V0b2ZmIDwgMTUwMDAsIF0pXG5jb2VmKHN1bW1hcnkobG0zKSlbLCBcIlN0ZC4gRXJyb3JcIl1cbmBgYCJ9 -->
+<pre class="r"><code>lm3 &lt;- lm(Hungary_lights_no0.tif ~ treated, data = hungary.sf[hungary.sf$dist2cutoff &lt; 15000, ])
+coef(summary(lm3))[, &quot;Std. Error&quot;]</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>To prepare for the true spatial RDD, I’ll recenter at zero</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaHVuZ2FyeS5zZiRkaXN0cnVubmluZyA8LSBodW5nYXJ5LnNmJGRpc3QyY3V0b2ZmXG5odW5nYXJ5LnNmJGRpc3RydW5uaW5nW2h1bmdhcnkuc2YkdHJlYXRlZCA9PSAwXSA8LSAtMSAqIGh1bmdhcnkuc2YkZGlzdHJ1bm5pbmdbaHVuZ2FyeS5zZiR0cmVhdGVkID09IDBdXG5nZ3Bsb3QoZGF0YSA9IGh1bmdhcnkuc2YsIGFlcyh4ID0gZGlzdHJ1bm5pbmcsIHkgPSBIdW5nYXJ5X2xpZ2h0c19ubzAudGlmKSkgKyBnZW9tX3BvaW50KCkgKyBnZW9tX3ZsaW5lKHhpbnRlcmNlcHQgPSAwLCBjb2wgPSBcInJlZFwiKVxuYGBgIn0= -->
+<pre class="r"><code>hungary.sf$distrunning &lt;- hungary.sf$dist2cutoff
+hungary.sf$distrunning[hungary.sf$treated == 0] &lt;- -1 * hungary.sf$distrunning[hungary.sf$treated == 0]
+ggplot(data = hungary.sf, aes(x = distrunning, y = Hungary_lights_no0.tif)) + geom_point() + geom_vline(xintercept = 0, col = &quot;red&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Now some “naive” RDD with local linear estimation</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY292czEgPC0gY2JpbmQoaHVuZ2FyeS5zZiRIdW5nYXJ5X2VsZXZhdGlvbi50aWYsIGh1bmdhcnkuc2YkaHVuZ2FyeS5wb3AudGlmKVxuY292czIgPC0gY2JpbmQoaHVuZ2FyeS5zZiRIdW5nYXJ5X2VsZXZhdGlvbi50aWYsIGh1bmdhcnkuc2YkaHVuZ2FyeS5wb3AudGlmLCBodW5nYXJ5LnNmJHNvaWwudGYuZilcbnJkMSA8LSByZHJvYnVzdChodW5nYXJ5LnNmJGxvZ19saWdodHMsIGh1bmdhcnkuc2YkZGlzdHJ1bm5pbmcsIGMgPSAwKVxucmQxLjEgPC0gcmRyb2J1c3QoaHVuZ2FyeS5zZiRsb2dfbGlnaHRzLCBodW5nYXJ5LnNmJGRpc3RydW5uaW5nLCBjID0gMCwgcCA9IDIpXG5yZDIgPC0gcmRyb2J1c3QoaHVuZ2FyeS5zZiRsb2dfbGlnaHRzLCBodW5nYXJ5LnNmJGRpc3RydW5uaW5nLCBjb3ZzID0gaHVuZ2FyeS5zZiRIdW5nYXJ5X2VsZXZhdGlvbi50aWYsIGMgPSAwKVxucmQzIDwtIHJkcm9idXN0KGh1bmdhcnkuc2YkbG9nX2xpZ2h0cywgaHVuZ2FyeS5zZiRkaXN0cnVubmluZywgY292cyA9IGNvdnMxLCBjID0gMClcbnJkNCA8LSByZHJvYnVzdChodW5nYXJ5LnNmJGxvZ19saWdodHMsIGh1bmdhcnkuc2YkZGlzdHJ1bm5pbmcsIGNvdnMgPSBjb3ZzMiwgYyA9IDApXG5yZDUgPC0gcmRyb2J1c3QoaHVuZ2FyeS5zZiRsb2dfbGlnaHRzLCBodW5nYXJ5LnNmJGRpc3RydW5uaW5nLCBjb3ZzID0gY292czEsIGMgPSAwLCBwPTIpXG5yZDYgPC0gcmRyb2J1c3QoaHVuZ2FyeS5zZiRsb2dfbGlnaHRzLCBodW5nYXJ5LnNmJGRpc3RydW5uaW5nLCBjb3ZzID0gY292czIsIGMgPSAwLCBwID0yKVxuc3VtbWFyeShyZDEpXG5zdW1tYXJ5KHJkMS4xKVxuc3VtbWFyeShyZDIpXG5zdW1tYXJ5KHJkMylcbnN1bW1hcnkocmQ0KVxuc3VtbWFyeShyZDUpXG5zdW1tYXJ5KHJkNilcbmBgYCJ9 -->
+<pre class="r"><code>covs1 &lt;- cbind(hungary.sf$Hungary_elevation.tif, hungary.sf$hungary.pop.tif)
+covs2 &lt;- cbind(hungary.sf$Hungary_elevation.tif, hungary.sf$hungary.pop.tif, hungary.sf$soil.tf.f)
+rd1 &lt;- rdrobust(hungary.sf$log_lights, hungary.sf$distrunning, c = 0)
+rd1.1 &lt;- rdrobust(hungary.sf$log_lights, hungary.sf$distrunning, c = 0, p = 2)
+rd2 &lt;- rdrobust(hungary.sf$log_lights, hungary.sf$distrunning, covs = hungary.sf$Hungary_elevation.tif, c = 0)
+rd3 &lt;- rdrobust(hungary.sf$log_lights, hungary.sf$distrunning, covs = covs1, c = 0)
+rd4 &lt;- rdrobust(hungary.sf$log_lights, hungary.sf$distrunning, covs = covs2, c = 0)
+rd5 &lt;- rdrobust(hungary.sf$log_lights, hungary.sf$distrunning, covs = covs1, c = 0, p=2)
+rd6 &lt;- rdrobust(hungary.sf$log_lights, hungary.sf$distrunning, covs = covs2, c = 0, p =2)
+summary(rd1)
+summary(rd1.1)
+summary(rd2)
+summary(rd3)
+summary(rd4)
+summary(rd5)
+summary(rd6)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Well, that was cool. You can see that now all the estimated coefficients on the treatment area are positive. Now for some RD plots.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmRwbG90KGh1bmdhcnkuc2YkbG9nX2xpZ2h0cywgaHVuZ2FyeS5zZiRkaXN0cnVubmluZywgY292cyA9IGNvdnMyLCBjID0gMCwgcCA9MixcbiAgICAgICB5LmxhYmVsID0gXCJMdW1pbm9zaXR5XCIsIHgubGFiZWwgPSBcImRpc3RhbmNlIHRvIGJvcmRlclwiKVxuXG5yZHBsb3QoaHVuZ2FyeS5zZiRsb2dfbGlnaHRzLCBodW5nYXJ5LnNmJGRpc3RydW5uaW5nLCBjb3ZzID0gY292czIsIGMgPSAwLCBwID0xLFxuICAgICAgIHkubGFiZWwgPSBcIkx1bWlub3NpdHlcIiwgeC5sYWJlbCA9IFwiZGlzdGFuY2UgdG8gYm9yZGVyXCIpXG5cbnJkcGxvdChodW5nYXJ5LnNmJGxvZ19saWdodHMsIGh1bmdhcnkuc2YkZGlzdHJ1bm5pbmcsIGNvdnMgPSBjb3ZzMiwgYyA9IDAsIHAgPTYsIGggPSA2MCxcbiAgICAgICB5LmxhYmVsID0gXCJMdW1pbm9zaXR5XCIsIHgubGFiZWwgPSBcImRpc3RhbmNlIHRvIGJvcmRlclwiKVxuXG5yZHBsb3QoaHVuZ2FyeS5zZiRIdW5nYXJ5X2xpZ2h0c19ubzAudGlmLCBodW5nYXJ5LnNmJGRpc3RydW5uaW5nLCBjID0gMCwgY2kgPSA5NSwgXG4gICAgICAga2VybmVsID0gXCJ0cmlhbmd1bGFyXCIsIHkubGFiZWwgPSBcIkx1bWlub3NpdHlcIiwgeC5sYWJlbCA9IFwiZGlzdGFuY2UgdG8gYm9yZGVyXCIpXG5cbmBgYCJ9 -->
+<pre class="r"><code>rdplot(hungary.sf$log_lights, hungary.sf$distrunning, covs = covs2, c = 0, p =2,
+       y.label = &quot;Luminosity&quot;, x.label = &quot;distance to border&quot;)
+
+rdplot(hungary.sf$log_lights, hungary.sf$distrunning, covs = covs2, c = 0, p =1,
+       y.label = &quot;Luminosity&quot;, x.label = &quot;distance to border&quot;)
+
+rdplot(hungary.sf$log_lights, hungary.sf$distrunning, covs = covs2, c = 0, p =6, h = 60,
+       y.label = &quot;Luminosity&quot;, x.label = &quot;distance to border&quot;)
+
+rdplot(hungary.sf$Hungary_lights_no0.tif, hungary.sf$distrunning, c = 0, ci = 95, 
+       kernel = &quot;triangular&quot;, y.label = &quot;Luminosity&quot;, x.label = &quot;distance to border&quot;)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>The second plot in particular suggests that linear regression on either side reveals the positive discontinuity at the Danube.</p>
+<p>For a more precise look, I discretize the border line I cut earlier, first every 6km, then every 1.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYm9yZGVycG9pbnRzLnNmIDwtIGRpc2NyZXRpc2VfYm9yZGVyKGN1dG9mZiA9IGRhbnViZS5zZiwgbiA9IDUwKVxuYm9yZGVycG9pbnRzLnNmJGlkIDwtIDE6bnJvdyhib3JkZXJwb2ludHMuc2YpXG5ib3JkZXJwb2ludHMuc2YyIDwtIGRpc2NyZXRpc2VfYm9yZGVyKGN1dG9mZiA9IGRhbnViZS5zZiwgbiA9IDEwKVxuYm9yZGVycG9pbnRzLnNmMiRpZCA8LSAxOm5yb3coYm9yZGVycG9pbnRzLnNmMilcbmBgYCJ9 -->
+<pre class="r"><code>borderpoints.sf &lt;- discretise_border(cutoff = danube.sf, n = 50)
+borderpoints.sf$id &lt;- 1:nrow(borderpoints.sf)
+borderpoints.sf2 &lt;- discretise_border(cutoff = danube.sf, n = 10)
+borderpoints.sf2$id &lt;- 1:nrow(borderpoints.sf2)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Finally by looping over boundary points with spatialrd(), with 50 sections, I’ll produce non-parametric estimates of the treatment effect</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYmRkMSA8LSBzcGF0aWFscmQoeSA9IFwibG9nX2xpZ2h0c1wiLCBkYXRhID0gaHVuZ2FyeS5zZiwgY3V0b2ZmLnBvaW50cyA9IGJvcmRlcnBvaW50cy5zZiwgXG50cmVhdGVkID0gXCJ0cmVhdGVkXCIsIG1pbm9icyA9IDEwLCBzcGF0aWFsLm9iamVjdCA9IFQpXG5rbml0cjo6a2FibGUoYmRkMSlcbmJkZDIgPC0gc3BhdGlhbHJkKHkgPSBcImxvZ19saWdodHNcIiwgZGF0YSA9IGh1bmdhcnkuc2YsIGN1dG9mZi5wb2ludHMgPSBib3JkZXJwb2ludHMuc2YsIFxuICAgICAgICAgICAgICAgICAgdHJlYXRlZCA9IFwidHJlYXRlZFwiLCBtaW5vYnMgPSAxMCwgY292cyA9IGNvdnMxLCBzcGF0aWFsLm9iamVjdCA9IFQpXG5gYGAifQ== -->
+<pre class="r"><code>bdd1 &lt;- spatialrd(y = &quot;log_lights&quot;, data = hungary.sf, cutoff.points = borderpoints.sf, 
+treated = &quot;treated&quot;, minobs = 10, spatial.object = T)
+knitr::kable(bdd1)
+bdd2 &lt;- spatialrd(y = &quot;log_lights&quot;, data = hungary.sf, cutoff.points = borderpoints.sf, 
+                  treated = &quot;treated&quot;, minobs = 10, covs = covs1, spatial.object = T)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>my little laptop had trouble running the third regression, but it isn’t used in the paper, so I’ll present the RD plots for the first two</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucGxvdHNwYXRpYWxyZChiZGQxLCBtYXAgPSBUKVxucGxvdHNwYXRpYWxyZChiZGQyLCBtYXAgPSBUKVxuYGBgIn0= -->
+<pre class="r"><code>plotspatialrd(bdd1, map = T)
+plotspatialrd(bdd2, map = T)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Average treatment effects are calculated below</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWVhbihiZGQxJEVzdGltYXRlKVxubWVhbihiZGQxJHB2YWxSKVxubWVhbihiZGQyJEVzdGltYXRlKVxubWVhbihiZGQyJHB2YWxSKVxuYGBgIn0= -->
+<pre class="r"><code>mean(bdd1$Estimate)
+mean(bdd1$pvalR)
+mean(bdd2$Estimate)
+mean(bdd2$pvalR)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Poisson regressions</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubTEgPC0gZ2xtKEh1bmdhcnlfbGlnaHRzX25vMC50aWYgfiB0cmVhdGVkICsgSHVuZ2FyeV9lbGV2YXRpb24udGlmICsgaHVuZ2FyeS5wb3AudGlmICsgc29pbC50Zi5mLCBmYW1pbHk9XCJwb2lzc29uXCIsIGRhdGE9aHVuZ2FyeS5zZilcblxubTIgPC0gZ2xtKEh1bmdhcnlfbGlnaHRzX25vMC50aWYgfiB0cmVhdGVkICsgSHVuZ2FyeV9lbGV2YXRpb24udGlmIFxuICAgICAgICAgICsgaHVuZ2FyeS5wb3AudGlmICsgc29pbC50Zi5mLCBmYW1pbHk9XCJwb2lzc29uXCIsIGRhdGE9aHVuZ2FyeS5zZltodW5nYXJ5LnNmJGRpc3QyY3V0b2ZmIDwgMzAwMCwgXSlcblxubTMgPC0gZ2xtKEh1bmdhcnlfbGlnaHRzX25vMC50aWYgfiB0cmVhdGVkICsgSHVuZ2FyeV9lbGV2YXRpb24udGlmIFxuICAgICAgICAgICsgaHVuZ2FyeS5wb3AudGlmICsgc29pbC50Zi5mLCBmYW1pbHk9XCJwb2lzc29uXCIsIGRhdGE9aHVuZ2FyeS5zZltodW5nYXJ5LnNmJGRpc3QyY3V0b2ZmIDwgNTAwMCwgXSlcblxubTQgPC0gZ2xtKEh1bmdhcnlfbGlnaHRzX25vMC50aWYgfiB0cmVhdGVkICsgSHVuZ2FyeV9lbGV2YXRpb24udGlmIFxuICAgICAgICAgICsgaHVuZ2FyeS5wb3AudGlmICsgc29pbC50Zi5mLCBmYW1pbHk9XCJwb2lzc29uXCIsIGRhdGE9aHVuZ2FyeS5zZltodW5nYXJ5LnNmJGRpc3QyY3V0b2ZmIDwgMTAwMDAsIF0pXG5gYGAifQ== -->
+<pre class="r"><code>m1 &lt;- glm(Hungary_lights_no0.tif ~ treated + Hungary_elevation.tif + hungary.pop.tif + soil.tf.f, family=&quot;poisson&quot;, data=hungary.sf)
+
+m2 &lt;- glm(Hungary_lights_no0.tif ~ treated + Hungary_elevation.tif 
+          + hungary.pop.tif + soil.tf.f, family=&quot;poisson&quot;, data=hungary.sf[hungary.sf$dist2cutoff &lt; 3000, ])
+
+m3 &lt;- glm(Hungary_lights_no0.tif ~ treated + Hungary_elevation.tif 
+          + hungary.pop.tif + soil.tf.f, family=&quot;poisson&quot;, data=hungary.sf[hungary.sf$dist2cutoff &lt; 5000, ])
+
+m4 &lt;- glm(Hungary_lights_no0.tif ~ treated + Hungary_elevation.tif 
+          + hungary.pop.tif + soil.tf.f, family=&quot;poisson&quot;, data=hungary.sf[hungary.sf$dist2cutoff &lt; 10000, ])</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>The actual estimates aren’t very informative, so I’ll display the marginal estimates instead. Once again, we see a negative marginal effect for the entirety of Hungary. However, restricting the regressions to bands of 3, 5, and 10 km around the cutoff leads to positive and statistically significant coefficients on the treatment variable. Marginal increases are calculated at 2?4 luminosity counts along the right bank within the Roman area, from the 1?63 count measure produced by the NOAA.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWFyZ2lucyhtMSlcbm1hcmdpbnMobTIpXG5tYXJnaW5zKG0zKVxubWFyZ2lucyhtNClcbmBgYCJ9 -->
+<pre class="r"><code>margins(m1)
+margins(m2)
+margins(m3)
+margins(m4)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OgogIHBkZl9kb2N1bWVudDogZGVmYXVsdAogIGh0bWxfbm90ZWJvb2s6IGRlZmF1bHQKLS0tCgoKCmBgYHtyfQpsaWJyYXJ5KHRtYXApCmxpYnJhcnkobWFwdG9vbHMpCmxpYnJhcnkocmFzdGVyKQpsaWJyYXJ5KFNwYXRpYWxSREQpCmxpYnJhcnkoZ2dwbG90MikKbGlicmFyeShzZikKbGlicmFyeShzdGFycykKbGlicmFyeShyZ2RhbCkKbGlicmFyeShyZHJvYnVzdCkKbGlicmFyeSh4dGFibGUpCmxpYnJhcnkoc3RhcmdhemVyKQpsaWJyYXJ5KGx3Z2VvbSkKbGlicmFyeShtYXJnaW5zKQpgYGAKCkhvdyBsb25nIGRvZXMgaGlzdG9yeSBsZWF2ZSBpdHMgbWFyayBvbiBlY29ub21pYyBkZXZlbG9wbWVudD8gVGhpcyBub3RlYm9vayBhY2NvbXBhbmllcyBhIHBhcGVyIGV4cGxvcmluZyB0aGF0IHF1ZXN0aW9uIGZvciB0aGUgcmVnaW9uIG9mIHRyYW5zZGFudWJpYSBpbiBtb2Rlcm4gSHVuZ2FyeSB1c2luZyBhIHNwYXRpYWwgUkREIHdpdGggTk9BQSBsdW1pbm9zaXR5IGRhdGEuIFRoZSByZXN1bHRzIHN1Z2dlc3QgYSBjYXVzYWwgbGluayBiZXR3ZWVuIHRoZSBhcmVhIG9mIG1vZGVybiBIdW5nYXJ5IHNldHRsZWQgYnkgdGhlIFJvbWFucyBhbmQgbW9kZXJuIGVjb25vbWljIGRldmVsb3BtZW50IGluIEV1cm9wZS4gVGhlIGNvbmNlbnRyYXRpb24gb2Ygc2V0dGxlbWVudCBhbG9uZyB0aGUgcmlnaHQgYmFuaywgY291cGxlZCB3aXRoIHRoZSBjb250aW51aXR5IGJldHdlZW4gdGhlIFJvbWFuIGFuZCBtb2Rlcm4gcm9hZCBzeXN0ZW1zIGFyZSBoaWdobHkgc3VnZ2VzdGl2ZSBvZiBpbmNyZWFzZWQgZWNvbm9taWMgZGV2ZWxvcG1lbnQgb24gdGhlIFJvbWFuIHNpZGUsIGFuZCBJIGh5cG90aGVzaXplIHRoYXQgY29udGludWl0eSBiZXR3ZWVuIHRoZSBhbmNpZW50IHJvYWRzIGFuZCBtb2Rlcm4gcm9hZHdheXMgZGVzcGl0ZSB0aGUgd2F2ZXMgb2YgaW52YXNpb25zIGluIGxhdGUgYW50aXF1aXR5IGV4cGxhaW5zIHRoZSAiaGVhZHN0YXJ0IiBnaXZlbiB0byB3ZXN0ZXJuIEh1bmdhcnkuIFNlZSB0aGUgcGFwZXIgZm9yIG1vcmUgaGlzdG9yaWNhbCBiYWNrZ3JvdW5kLiAKClRoZSBSb21hbiBzZXR0bGVtZW50IG9mIFdlc3Rlcm4gSHVuZ2FyeSBpcyBwb3RlbnRpYWxseSBhIG5pY2UgcXVhc2ktZXhwZXJpbWVudCBpbiB0aGUgbG9uZyBydW4gaW1wYWN0IG9mIGluZnJhc3RydWN0dXJlLiBJIHJ1biByb2J1c3QgbGluZWFyIHJlZ3Jlc3Npb25zLCBhbmQgdGhlbiB0aGUgZGFudWJlIGJvdW5kYXJ5IGlzIHVzZWQgdG8gcnVuIG5haXZlIFJERCB3aXRoIGhldD8gZXJvc2tlZGFzdGljaXR5IHJvYnVzdCBlcnJvcnMgYW5kIGRhdGEgZ2VuZXJhdGVkIGJhbmR3aWR0aHMsIGFuZCBmaW5hbGx5IGZ1bGx5IHNwYXRpYWwgQkREIHJlZ3Jlc3Npb25zLiBSZWNlbnRlcmVkIGRpc3RhbmNlIHRvIHRoZSBEYW51YmUgaXMgdXNlZCBmb3IgdGhlIHJ1bm5pbmcgdmFyaWFibGUgaW4gYWxsIGRpc2NvbnRpbnVpdHkgcmVncmVzc2lvbnMuIFNpbmNlIHRoZSBsdW1pbm9zaXR5IGRhdGEgaXMgYSBza2V3ZWQgZGlzdHJpYnV0aW9uIG9mIGRpc2NyZXRlIGNvdW50cywgSSBhbHNvIHJ1biBHTE0gUG9pc3NvbiByZWdyZXNzaW9ucyB0byBwcmVkaWN0IGx1bWlub3NpdHkgbGV2ZWxzIGluIHRoZSBSb21hbiBhcmVhLgpUaGUgdW5pdCBvZiBhbmFseXNpcyBpcyB0aGUgMzAgYXJjIHNlY29uZCBwaXhlbC4gSSBjb25kdWN0IGFsbCBwcmVsaW1pbmFyeSBnZW9zcGF0aWFsIHdvcmsgaW4gUUdJUy4gVGhlIGx1bWlub3NpdHkgcmFzdGVyIGRhdGEgaXMgY2xpcHBlZCB0byBIdW5nYXJ54oCZcyBtb2Rlcm4gYm9yZGVycywgYW5kIGEgdmVjdG9yIHNoYXBlZmlsZSByZXByZXNlbnRpbmcgdGhlIGNvdXJzZSBvZiB0aGUgRGFudWJlIHVzZWQgdG8gY3V0IGEgbGluZSByZXByZXNlbnRpbmcgdGhlIGJvdW5kYXJ5IGRpc2NvbnRpbnVpdHksIHJvdWdobHkgZm9sbG93aW5nIHRoZSBjZW50ZXIgb2YgdGhlIHJpdmVyLiBJIGNyZWF0ZSBhIHBvbHlnb24gcmVwcmVzZW50aW5nIHRoZSB0cmVhdG1lbnQgYXJlYSBvZiBUcmFuc2RhbnViaWEgYXMgY2FuIGJlIHNlZW4gaW4gZmlndXJlIDQuCkkgY29udmVydCBlYWNoIHBpeGVsIHJlcHJlc2VudGluZyBsdW1pbm9zaXR5IHRvIGEgcG9pbnQgYXQgaXRzIGNlbnRyb2lkLiBVc2luZyB0aGUgcG9seT8gZ29uIHJlcHJlc2VudGluZyB0aGUgdHJlYXRtZW50IGFyZWEgSSB0aGVuIGdlbmVyYXRlIGEgYmluYXJ5IHZhcmlhYmxlIGZvciBlYWNoIGx1bWlub3NpdHkgcG9pbnQgdmFsdWUuIFRoZW4gSSBjYWxjdWxhdGUgdGhlIGNsb3Nlc3QgZGlzdGFuY2UgYmV0d2VlbiBlYWNoIHBvaW50IGFuZCB0aGUgYm91bmRhcnkgbGluZSwgcmU/Y2VudGVyaW5nIHRoZSBkaXN0YW5jZXMgc28gdGhhdCAwIHJlcHJlc2VudGVkIHRoZSBEYW51YmUgYm91bmRhcnkuIEZpZ3VyZSA2IGlsbHVzdHJhdGVzIGVhY2ggb2YgdGhlc2Ugc3RlcHMuCgoKVGhlIGZpcnN0IHRoaW5nIHRvIGRvIGlzIHRvIGxvYWQgdGhlIC50aWYgc2F0ZWxsaXRlIGltYWdlcnkgZmlsZXMuIEkndmUgYWxyZWFkeSB1c2VkIGEgR0lTIHByb2dyYW0gdG8gY3V0IEh1bmdhcnkncyBtb2Rlcm4gYm9yZGVycyBmcm9tIHRoZSBnbG9iYWwgaW1hZ2UgdGhhdCB0aGUgTk9BQSBzdXBwbGllcy4gCgpgYGB7cn0KaHVuZ2FyeSA8LXJhc3Rlcigifi9EZXNrdG9wL0RGUC90aWYgZmlsZXMvSHVuZ2FyeV9saWdodHNfbm8wLnRpZiIpCnBsb3QoaHVuZ2FyeSwgbWFpbiA9ICJOaWdodHRpbWUgTHVtaW5vc2l0eSBvZiBNb2Rlcm4gSHVuZ2FyeSIsIHhsYWIgPSAiTGF0aXR1ZGUiLCB5bGFiID0gIkxvbmdpdHVkZSIpCmBgYAoKSGVyZSdzIGEgcGxvdCB3aXRoIGZpbmVyIGdyYWluZWQgYmlubmluZyBmb3IgdGhlIGx1bWlub3NpdHkgbWVhc3VyZS4gSXQnbGwgY29tZSBpbiBoYW5keSBsYXRlci4gCgoKYGBge3J9CmNvbCA9IGhlYXQuY29sb3JzKDYzKQpjZWxsU3RhdHMoaHVuZ2FyeSwgcmFuZ2UpCmltYWdlKGh1bmdhcnksIGNvbD1jb2wsIHhsYWIgPSAiTGF0aXR1ZGUiLCB5bGFiID0gIkxvbmdpdHVkZSIsIG1haW4gPSAiTmlnaHR0aW1lIEx1bWlub3NpdHkgb2YgTW9kZXJuIEh1bmdhcnkiKQpgYGAKCgpMb29rcyBnb29kLiBUaGUgTk9BQSBtZWFzdXJlbWVudCBpcyBvbiBhIDAtMTAwIHNjYWxlLiBUaGUgbWFpbiBjbHVzdGVyIGluIHRoZSBjZW50ZXIgaXMgQnVkYXBlc3QsIGFuZCBsYWtlIEJhbGF0b24gaXMgdmlzaWJsZSB0byB0aGUgd2VzdC4gCgpOb3cgZm9yIGEgc2Vuc2Ugb2YgdGhlIGRpc3RyaWJ1dGlvbiBvZiBsdW1pbm9zaXR5LiBZb3UgY2FuIHNlZSBiZWxvdyB0aGF0IHRoZSB2YXN0IG1ham9yaXR5IG9mIHBvaW50cyBoYXZlIHZlcnkgbG93IGxpZ2h0LCB3aXRoIGEgZmV3IGJlaW5nIG11Y2ggYnJpZ2h0ZXIuIAoKYGBge3J9Cmh1bmdhcnkyIDwtIGFzLmRhdGEuZnJhbWUoaHVuZ2FyeSkKaGlzdChodW5nYXJ5MiRIdW5nYXJ5X2xpZ2h0c19ubzAsIG1haW4gPSAiSGlzdG9ncmFtIG9mIE5pZ2h0dGltZSBMdW1pbm9zaXR5IGluIEh1bmdhcnkiLCB4bGFiID0gIkx1bWlub3NpdHkgTWVhc3VyZSIpCmBgYAoKVGhlIGJyaWdodGVzdCByZWdpb25zIGFyZSBwbG90dGVkIGJlbG93LiAKCmBgYHtyfQppbWFnZShodW5nYXJ5LCB6bGltPWMoNTAsNjMpLCBjb2w9Y29sLCBtYWluID0gIkJyaWdodGVzdCBSZWdpb25zIG9mIE1vZGVybiBIdW5nYXJ5IiwgeGxhYiA9ICJMYXRpdHVkZSIsIHlsYWIgPSAiTG9uZ2l0dWRlIikKYGBgCgpOb3cgSSByZWxvYWQgdGhlIGRhdGEgYXMgYSBzdGFycyBvYmplY3QsIHRvIGZhY2lsaXRhdGUgdHJhbnNmb3JtYXRpb24gdG8gYW4gc2Ygb2JqZWN0LCBhbmQgY29udmVydGluZyBhbGwgdGhlIHBvaW50cyB0byBwb2ludCBnZW9tZXRyaWVzLiAKCmBgYHtyfQpodW5nYXJ5X3N0YXJzIDwtIHJlYWRfc3RhcnMoIn4vRGVza3RvcC9ERlAvdGlmIGZpbGVzL0h1bmdhcnlfbGlnaHRzX25vMC50aWYiKQpodW5nYXJ5LnNmIDwtIHN0X2FzX3NmKGh1bmdhcnlfc3RhcnMsIGFzX3BvaW50cyA9IFRSVUUsIG1lcmdlID0gRkFMU0UsIGxvbmcgPSBUUlVFLCBjcnMgPSA0MzI2LCBjb29yZHMgPSBjKCJ4IiwgInkiKSkKcGxvdChodW5nYXJ5LnNmLCBtYWluID0gIlBvaW50IEdlb21ldHJ5IFBsb3Qgb2YgTmlnaHR0aW1lIEx1bWlub3NpdHkiLCBwY2ggPSAyMCkKYGBgCgpOb3cgZm9yIHRoZSBkaXNjb250aW51aXR5LCB0aGUgRGFudWJlIHJpdmVyLiBSZW1lbWJlciB0aGUgd2hvbGUgYW5hbHlzaXMgaGluZ2VzIG9uIHVzaW5nIHRoaXMgYm91bmRhcnkuIEkgYWxyZWFkeSBjdXQgdGhlIHNoYXBlIHVzaW5nIEdJUyBzb2Z0d2FyZS4gCgpgYGB7cn0KZGFudWJlIDwtIHJlYWRPR1IoZHNuPSIvVXNlcnMvYW5kcmV3Zm94L0Rlc2t0b3AvREZQL2RhbnViZSIsIGxheWVyPSJkaXNjb250IikKcGxvdChkYW51YmUpCmRhbnViZS5zZiA8LSBzdF9yZWFkKCIvVXNlcnMvYW5kcmV3Zm94L0Rlc2t0b3AvREZQL2RhbnViZSIsIGxheWVyID0gImRpc2NvbnQiKQpnZ3Bsb3QoKStnZW9tX3NmKGRhdGE9ZGFudWJlLnNmKQpgYGAKCk5vdyBJIGxvYWQgdGhlIGVsZXZhdGlvbiBkYXRhLCBqb2luaW5nIGl0IHdpdGggdGhlIGx1bWlub3NpdHkgZGF0YS4gU2luY2UgdGhlIGx1bWlub3NpdHkgcG9pbnQgZ2VvbWV0cmllcyBkb24ndCBjb3ZlciB0aGUgZW50aXJlIGNvdW50cnksIEkgdXNlIHRoZSBzdF9uZWFyZXN0X2ZlYXR1cmUgb3B0aW9uIHRvIG1hdGNoIGVhY2ggbHVtaW5vc2l0eSBwb2ludCB3aXRoIHRoZSBjbG9zZXN0IGVsZXZhdGlvbiBtZWFzdXJlLiAgV2hpbGUgdGhlcmUgaXMgc29tZSBkaWZmZXJlbmNlIGluIGVsZXZhdGlvbiBvbiBlaXRoZXIgc2lkZSBvZiB0aGUgRGFudWJlLCBpdCdzIG5vdGUgZXh0cmVtZS4gSW5jbHVkaW5nIGl0IGluIHRoZSByZWdyZXNzaW9ucyB3aWxsIGFsbG93IHVzIHRvIGNvbnRyb2wgZm9yIHRoaXMgZGlmZmVyZW5jZS4gCgpgYGB7cn0KaHVuZ2FyeV9lbGV2X3N0YXJzIDwtIHJlYWRfc3RhcnMoIn4vRGVza3RvcC9ERlAvdGlmIGZpbGVzL0h1bmdhcnlfZWxldmF0aW9uLnRpZiIpCnBsb3QoaHVuZ2FyeV9lbGV2X3N0YXJzKQpodW5nYXJ5LmVsZXYuc2YgPC0gc3RfYXNfc2YoaHVuZ2FyeV9lbGV2X3N0YXJzLCBhc19wb2ludHMgPSBUUlVFLCBtZXJnZSA9IEZBTFNFLCBsb25nID0gVFJVRSwgY3JzID0gNDMyNiwgY29vcmRzID0gYygieCIsICJ5IikpCmh1bmdhcnkuc2YgPC0gc3Rfam9pbihodW5nYXJ5LnNmLCBodW5nYXJ5LmVsZXYuc2YsIGpvaW4gPSBzdF9uZWFyZXN0X2ZlYXR1cmUpCmBgYAoKSSByZXBlYXQgdGhlIHNhbWUgcHJvY2VkdXJlIHdpdGggcG9wdWxhdGlvbiBkYXRhLCBhbmQgc29pbCBxdWFsaXR5IGRhdGEuIEkgdGhlbiBjb2RlIAoKYGBge3J9Cmh1bmdhcnlfcG9wX3N0YXJzIDwtIHJlYWRfc3RhcnMoIn4vRGVza3RvcC9ERlAvaHVuZ2FyeS5wb3AudGlmIikKaHVuZ2FyeS5wb3Auc2YgPC0gc3RfYXNfc2YoaHVuZ2FyeV9wb3Bfc3RhcnMsIGFzX3BvaW50cyA9IFRSVUUsIG1lcmdlID0gRkFMU0UsIGxvbmcgPSBUUlVFLCBjcnMgPSA0MzI2LCBjb29yZHMgPSBjKCJ4IiwgInkiKSkKaHVuZ2FyeS5zZiA8LSBzdF9qb2luKGh1bmdhcnkuc2YsIGh1bmdhcnkucG9wLnNmLCBqb2luID0gc3RfbmVhcmVzdF9mZWF0dXJlKQpodW5nYXJ5X3NvaWxfc3RhcnMgPC0gcmVhZF9zdGFycygifi9EZXNrdG9wL0RGUC9zb2lsLnRpZiIpCmh1bmdhcnkuc29pbC5zZiA8LSBzdF9hc19zZihodW5nYXJ5X3NvaWxfc3RhcnMsIGFzX3BvaW50cyA9IFRSVUUsIG1lcmdlID0gRkFMU0UsIGxvbmcgPSBUUlVFLCBjcnMgPSA0MzI2LCBjb29yZHMgPSBjKCJ4IiwgInkiKSkKaHVuZ2FyeS5zZiA8LSBzdF9qb2luKGh1bmdhcnkuc2YsIGh1bmdhcnkuc29pbC5zZiwgam9pbiA9IHN0X25lYXJlc3RfZmVhdHVyZSkKYGBgCgpKdXN0IGNvZGluZyB0aGUgc29pbCB2YXJpYWJsZSBhcyBhIHByb3BlciBmYWN0b3IgdmFyaWFibGUuLi4KCmBgYHtyfQpodW5nYXJ5LnNmJHNvaWwudGYuZiA8LSBmYWN0b3IoaHVuZ2FyeS5zZiRzb2lsLnRpZikKaXMuZmFjdG9yKGh1bmdhcnkuc2Ykc29pbC50Zi5mKQpgYGAKCkknbGwgbWFrZSBhIHF1aWNrIHBsb3QgIHRvIG1ha2Ugc3VyZSB0aGUgYm91bmRhcnkgbG9va3MgcmlnaHQuCgpgYGB7cn0KcGxvdChodW5nYXJ5LCBtYWluID0gIk5pZ2h0dGltZSBMdW1pbm9zaXR5IG9mIE1vZGVybiBIdW5nYXJ5IHdpdGggQm91bmRhcnkiLCB4bGFiID0gIkxhdGl0dWRlIiwgeWxhYiA9ICJMb25naXR1ZGUiKQpwbG90KGRhbnViZSwgYWRkID0gVFJVRSkKYGBgCgpMb29rcyBnb29kISBOb3cgdG8gaW1wb3J0IGFuZCBwbG90IHRoZSB0cmVhdG1lbnQgcG9seWdvbgoKYGBge3J9CnRyZWF0IDwtIHJlYWRPR1IoZHNuPSIvVXNlcnMvYW5kcmV3Zm94L0Rlc2t0b3AvREZQL3RyZWF0bWVudCIsIGxheWVyPSJ0cmVhdCIpCnBsb3QoaHVuZ2FyeSwgbWFpbiA9ICJOaWdodHRpbWUgTHVtaW5vc2l0eSBvZiBNb2Rlcm4gSHVuZ2FyeSB3aXRoIFRyZWF0bWVudCIsIHhsYWIgPSAiTGF0aXR1ZGUiLCB5bGFiID0gIkxvbmdpdHVkZSIpCnBsb3QodHJlYXQsIGFkZCA9IFRSVUUpCmBgYAoKYGBge3J9CnRyZWF0LnNmIDwtIHN0X3JlYWQoIi9Vc2Vycy9hbmRyZXdmb3gvRGVza3RvcC9ERlAvdHJlYXRtZW50IiwgbGF5ZXIgPSAidHJlYXQiKQpnZ3Bsb3QoKStnZW9tX3NmKGRhdGE9dHJlYXQuc2YpCmBgYAoKTm93IHRvIG1ha2Ugc3VyZSB0aGUgY29vcmRpbmF0ZSBzeXN0ZW1zIGFyZSBhbGlnbmVkIGZvciBhbGwgdGhyZSAuc2YgZGF0YXNldHMKYGBge3J9CnN0X2Nycyh0cmVhdC5zZikgPSA0MzI2CnN0X2NycyhodW5nYXJ5LnNmKSA9IDQzMjYKc3RfY3JzKGRhbnViZS5zZikgPSA0MzI2CmBgYAoKQXNzaWduaW5nIHRoZSB0cmVhdG1lbnQgYXJlYQpgYGB7cn0KaHVuZ2FyeS5zZiR0cmVhdGVkIDwtIGFzc2lnbl90cmVhdGVkKGh1bmdhcnkuc2YsIHRyZWF0LnNmLCBpZCA9ICJnZW9tZXRyeSIpCiMgYSB3YXJuaW5nIGFwcGVhcnMsIGJ1dCBmb3IgdGhpcyBzbWFsbCBhcmVhLCBpdCBzaG91bGRuJ3QgYmUgYSBwcm9ibGVtCnN1bW1hcnkoaHVuZ2FyeS5zZiR0cmVhdGVkKQpgYGAKYGBge3J9Cmh1bmdhcnkuc2YkbG9nX2xpZ2h0cyA8LSBsb2coaHVuZ2FyeS5zZiRIdW5nYXJ5X2xpZ2h0c19ubzAudGlmKQpgYGAKCkZpbmFsbHkgaGVyZSdzIGEgcGxvdCBvZiBhbGwgdGhlIHZhcmlhYmxlcyBvdmVyIEh1bmdhcnkKCmBgYHtyfQpwbG90KGh1bmdhcnkuc2YpCmBgYAoKCgpmaXJzdCBzaW1wbGUgcG9vbGVkIGJpbmFyeSB2YXJpYWJsZSByZWdyZXNzaW9ucy4gRnJvbSB0aGUgZXN0aW1hdGVkIGNvZWZmaWNpZW50IG9uIHRoZSB0cmVhdG1lbnQgYXJlYSB3ZSBjYW4gc2VlIHRoYXQgb24gYXZlcmFnZSBsaWdodCBsZXZlbHMgYXJlIGEgYml0IGxvd2VyIGluIHRoZSB0cmFuc2RhbnViaWFuIHNpZGUgb2YgSHVuZ2FyeS4gCmBgYHtyfQpsbTEgPC0gbG0obG9nX2xpZ2h0cyB+IHRyZWF0ZWQsIGRhdGEgPSBodW5nYXJ5LnNmKQpsbTIgPC0gbG0obG9nX2xpZ2h0cyB+IHRyZWF0ZWQgKyBIdW5nYXJ5X2VsZXZhdGlvbi50aWYgKyBodW5nYXJ5LnBvcC50aWYgKyBzb2lsLnRmLmYgLCBkYXRhID0gaHVuZ2FyeS5zZikKbG0xCmxtMgpgYGAKCk5vdyBJIGNyZWF0ZSBhIG5ldyB2YXJpYWJsZSBtZWFzdXJpbmcgdGhlIGRpc3RhbmNlIHRvIHRoZSBjdXRvZmYuIAoKCmBgYHtyfQpodW5nYXJ5LnNmJGRpc3QyY3V0b2ZmIDwtIGFzLm51bWVyaWMoc2Y6OnN0X2Rpc3RhbmNlKGh1bmdhcnkuc2YsIGRhbnViZS5zZikpCnN1bW1hcnkoaHVuZ2FyeS5zZiRkaXN0MmN1dG9mZikKYGBgCgpMZXQncyBkbyBhIHdob2xlIGJ1bmNoYSByZWdyZXNzaW9ucyBhbmQgZGlzcGxheSB0aGVtIGJlbG93LiAKCmBgYHtyfQpsbTQgPC0gbG0obG9nX2xpZ2h0cyB+IHRyZWF0ZWQgKyBIdW5nYXJ5X2VsZXZhdGlvbi50aWYgKyBodW5nYXJ5LnBvcC50aWYsIGRhdGEgPSBodW5nYXJ5LnNmW2h1bmdhcnkuc2YkZGlzdDJjdXRvZmYgPCA1MDAwLCBdKQpsbTUgPC0gbG0obG9nX2xpZ2h0cyB+IHRyZWF0ZWQgKyBIdW5nYXJ5X2VsZXZhdGlvbi50aWYgKyBodW5nYXJ5LnBvcC50aWYgKyBzb2lsLnRmLmYsIGRhdGEgPSBodW5nYXJ5LnNmW2h1bmdhcnkuc2YkZGlzdDJjdXRvZmYgPCAxMDAwMCwgXSkKbG02IDwtIGxtKGxvZ19saWdodHMgfiB0cmVhdGVkICsgSHVuZ2FyeV9lbGV2YXRpb24udGlmICsgaHVuZ2FyeS5wb3AudGlmICsgc29pbC50Zi5mLCBkYXRhID0gaHVuZ2FyeS5zZltodW5nYXJ5LnNmJGRpc3QyY3V0b2ZmIDwgMzAwMCwgXSkgCmxtNyA8LSBsbShsb2dfbGlnaHRzIH4gdHJlYXRlZCArIEh1bmdhcnlfZWxldmF0aW9uLnRpZiArIGh1bmdhcnkucG9wLnRpZiArIHNvaWwudGYuZiwgZGF0YSA9IGh1bmdhcnkuc2ZbaHVuZ2FyeS5zZiRkaXN0MmN1dG9mZiA8IDUwMDAsIF0pCmxtOCA8LSBsbShsb2dfbGlnaHRzIH4gdHJlYXRlZCArIEh1bmdhcnlfZWxldmF0aW9uLnRpZiArIGh1bmdhcnkucG9wLnRpZiArIHNvaWwudGYuZiwgZGF0YSA9IGh1bmdhcnkuc2ZbaHVuZ2FyeS5zZiRkaXN0MmN1dG9mZiA8IDEwMDAwLCBdKQoKbG00CmxtNQpsbTYKbG03CmxtOApgYGAKCkEgYmFzaWMgbGluZWFyIHJlZ3Jlc3Npb24gb24gYSBiaW5hcnkgdmFyaWFibGUgdXNpbmcgdGhlIHRyZWF0bWVudCBhcmVhIHNob3dzIHRoYXQgb24gYXZlcmFnZSB0aGVyZSBpcyBsb3dlciBsdW1pbm9zaXR5IG9uIHRoZSBSb21hbiBzaWRlIG9mIHRoZSBEYW51YmUsIHdoaWxlIGxpbmVhciByZWdyZXNzaW9ucyB3aXRoIGEgYnVmZmVyIGFyb3VuZCB0aGUgRGFudWJlIG9mIDMsIDUsIGFuZCAxMCBrbSBzaG93IHRoZSBlZmZlY3Qgb2YgYmVpbmcgb24gdGhlIFJvbWFuIHNpZGUgaXMgcG9zaXRpdmUgYW5kIHNpZ25pZmljYW50LiBUaGUgbGluZWFyIHJlZ3Jlc3Npb24gcmVzdWx0cyBhcmUgaW4gdGFibGUgMi4gRWxldmF0aW9uIGFuZCBwb3B1bGF0aW9uIGhhdmUgc21hbGwgYnV0IHNpZ25pZmljYW50IGVmZmVjdHMuCgpgYGB7cn0KbG0zIDwtIGxtKEh1bmdhcnlfbGlnaHRzX25vMC50aWYgfiB0cmVhdGVkLCBkYXRhID0gaHVuZ2FyeS5zZltodW5nYXJ5LnNmJGRpc3QyY3V0b2ZmIDwgMTUwMDAsIF0pCmNvZWYoc3VtbWFyeShsbTMpKVssICJTdGQuIEVycm9yIl0KYGBgCgpUbyBwcmVwYXJlIGZvciB0aGUgdHJ1ZSBzcGF0aWFsIFJERCwgSSdsbCByZWNlbnRlciBhdCB6ZXJvCgpgYGB7cn0KaHVuZ2FyeS5zZiRkaXN0cnVubmluZyA8LSBodW5nYXJ5LnNmJGRpc3QyY3V0b2ZmCmh1bmdhcnkuc2YkZGlzdHJ1bm5pbmdbaHVuZ2FyeS5zZiR0cmVhdGVkID09IDBdIDwtIC0xICogaHVuZ2FyeS5zZiRkaXN0cnVubmluZ1todW5nYXJ5LnNmJHRyZWF0ZWQgPT0gMF0KZ2dwbG90KGRhdGEgPSBodW5nYXJ5LnNmLCBhZXMoeCA9IGRpc3RydW5uaW5nLCB5ID0gSHVuZ2FyeV9saWdodHNfbm8wLnRpZikpICsgZ2VvbV9wb2ludCgpICsgZ2VvbV92bGluZSh4aW50ZXJjZXB0ID0gMCwgY29sID0gInJlZCIpCmBgYAoKTm93IHNvbWUgIm5haXZlIiBSREQgd2l0aCBsb2NhbCBsaW5lYXIgZXN0aW1hdGlvbgoKYGBge3J9CmNvdnMxIDwtIGNiaW5kKGh1bmdhcnkuc2YkSHVuZ2FyeV9lbGV2YXRpb24udGlmLCBodW5nYXJ5LnNmJGh1bmdhcnkucG9wLnRpZikKY292czIgPC0gY2JpbmQoaHVuZ2FyeS5zZiRIdW5nYXJ5X2VsZXZhdGlvbi50aWYsIGh1bmdhcnkuc2YkaHVuZ2FyeS5wb3AudGlmLCBodW5nYXJ5LnNmJHNvaWwudGYuZikKcmQxIDwtIHJkcm9idXN0KGh1bmdhcnkuc2YkbG9nX2xpZ2h0cywgaHVuZ2FyeS5zZiRkaXN0cnVubmluZywgYyA9IDApCnJkMS4xIDwtIHJkcm9idXN0KGh1bmdhcnkuc2YkbG9nX2xpZ2h0cywgaHVuZ2FyeS5zZiRkaXN0cnVubmluZywgYyA9IDAsIHAgPSAyKQpyZDIgPC0gcmRyb2J1c3QoaHVuZ2FyeS5zZiRsb2dfbGlnaHRzLCBodW5nYXJ5LnNmJGRpc3RydW5uaW5nLCBjb3ZzID0gaHVuZ2FyeS5zZiRIdW5nYXJ5X2VsZXZhdGlvbi50aWYsIGMgPSAwKQpyZDMgPC0gcmRyb2J1c3QoaHVuZ2FyeS5zZiRsb2dfbGlnaHRzLCBodW5nYXJ5LnNmJGRpc3RydW5uaW5nLCBjb3ZzID0gY292czEsIGMgPSAwKQpyZDQgPC0gcmRyb2J1c3QoaHVuZ2FyeS5zZiRsb2dfbGlnaHRzLCBodW5nYXJ5LnNmJGRpc3RydW5uaW5nLCBjb3ZzID0gY292czIsIGMgPSAwKQpyZDUgPC0gcmRyb2J1c3QoaHVuZ2FyeS5zZiRsb2dfbGlnaHRzLCBodW5nYXJ5LnNmJGRpc3RydW5uaW5nLCBjb3ZzID0gY292czEsIGMgPSAwLCBwPTIpCnJkNiA8LSByZHJvYnVzdChodW5nYXJ5LnNmJGxvZ19saWdodHMsIGh1bmdhcnkuc2YkZGlzdHJ1bm5pbmcsIGNvdnMgPSBjb3ZzMiwgYyA9IDAsIHAgPTIpCnN1bW1hcnkocmQxKQpzdW1tYXJ5KHJkMS4xKQpzdW1tYXJ5KHJkMikKc3VtbWFyeShyZDMpCnN1bW1hcnkocmQ0KQpzdW1tYXJ5KHJkNSkKc3VtbWFyeShyZDYpCmBgYAoKV2VsbCwgdGhhdCB3YXMgY29vbC4gWW91IGNhbiBzZWUgdGhhdCBub3cgYWxsIHRoZSBlc3RpbWF0ZWQgY29lZmZpY2llbnRzIG9uIHRoZSB0cmVhdG1lbnQgYXJlYSBhcmUgcG9zaXRpdmUuIE5vdyBmb3Igc29tZSBSRCBwbG90cy4gCgpgYGB7cn0KcmRwbG90KGh1bmdhcnkuc2YkbG9nX2xpZ2h0cywgaHVuZ2FyeS5zZiRkaXN0cnVubmluZywgY292cyA9IGNvdnMyLCBjID0gMCwgcCA9MiwKICAgICAgIHkubGFiZWwgPSAiTHVtaW5vc2l0eSIsIHgubGFiZWwgPSAiZGlzdGFuY2UgdG8gYm9yZGVyIikKCnJkcGxvdChodW5nYXJ5LnNmJGxvZ19saWdodHMsIGh1bmdhcnkuc2YkZGlzdHJ1bm5pbmcsIGNvdnMgPSBjb3ZzMiwgYyA9IDAsIHAgPTEsCiAgICAgICB5LmxhYmVsID0gIkx1bWlub3NpdHkiLCB4LmxhYmVsID0gImRpc3RhbmNlIHRvIGJvcmRlciIpCgpyZHBsb3QoaHVuZ2FyeS5zZiRsb2dfbGlnaHRzLCBodW5nYXJ5LnNmJGRpc3RydW5uaW5nLCBjb3ZzID0gY292czIsIGMgPSAwLCBwID02LCBoID0gNjAsCiAgICAgICB5LmxhYmVsID0gIkx1bWlub3NpdHkiLCB4LmxhYmVsID0gImRpc3RhbmNlIHRvIGJvcmRlciIpCgpyZHBsb3QoaHVuZ2FyeS5zZiRIdW5nYXJ5X2xpZ2h0c19ubzAudGlmLCBodW5nYXJ5LnNmJGRpc3RydW5uaW5nLCBjID0gMCwgY2kgPSA5NSwgCiAgICAgICBrZXJuZWwgPSAidHJpYW5ndWxhciIsIHkubGFiZWwgPSAiTHVtaW5vc2l0eSIsIHgubGFiZWwgPSAiZGlzdGFuY2UgdG8gYm9yZGVyIikKCmBgYAoKVGhlIHNlY29uZCBwbG90IGluIHBhcnRpY3VsYXIgc3VnZ2VzdHMgdGhhdCBsaW5lYXIgcmVncmVzc2lvbiBvbiBlaXRoZXIgc2lkZSByZXZlYWxzIHRoZSBwb3NpdGl2ZSBkaXNjb250aW51aXR5IGF0IHRoZSBEYW51YmUuIAoKRm9yIGEgbW9yZSBwcmVjaXNlIGxvb2ssIEkgZGlzY3JldGl6ZSB0aGUgYm9yZGVyIGxpbmUgSSBjdXQgZWFybGllciwgZmlyc3QgZXZlcnkgNmttLCB0aGVuIGV2ZXJ5IDEuIAoKYGBge3J9CmJvcmRlcnBvaW50cy5zZiA8LSBkaXNjcmV0aXNlX2JvcmRlcihjdXRvZmYgPSBkYW51YmUuc2YsIG4gPSA1MCkKYm9yZGVycG9pbnRzLnNmJGlkIDwtIDE6bnJvdyhib3JkZXJwb2ludHMuc2YpCmJvcmRlcnBvaW50cy5zZjIgPC0gZGlzY3JldGlzZV9ib3JkZXIoY3V0b2ZmID0gZGFudWJlLnNmLCBuID0gMTApCmJvcmRlcnBvaW50cy5zZjIkaWQgPC0gMTpucm93KGJvcmRlcnBvaW50cy5zZjIpCmBgYAoKRmluYWxseSBieSBsb29waW5nIG92ZXIgYm91bmRhcnkgcG9pbnRzIHdpdGggc3BhdGlhbHJkKCksIHdpdGggNTAgc2VjdGlvbnMsIEknbGwgcHJvZHVjZSBub24tcGFyYW1ldHJpYyBlc3RpbWF0ZXMgb2YgdGhlIHRyZWF0bWVudCBlZmZlY3QKCmBgYHtyfQpiZGQxIDwtIHNwYXRpYWxyZCh5ID0gImxvZ19saWdodHMiLCBkYXRhID0gaHVuZ2FyeS5zZiwgY3V0b2ZmLnBvaW50cyA9IGJvcmRlcnBvaW50cy5zZiwgCnRyZWF0ZWQgPSAidHJlYXRlZCIsIG1pbm9icyA9IDEwLCBzcGF0aWFsLm9iamVjdCA9IFQpCmtuaXRyOjprYWJsZShiZGQxKQpiZGQyIDwtIHNwYXRpYWxyZCh5ID0gImxvZ19saWdodHMiLCBkYXRhID0gaHVuZ2FyeS5zZiwgY3V0b2ZmLnBvaW50cyA9IGJvcmRlcnBvaW50cy5zZiwgCiAgICAgICAgICAgICAgICAgIHRyZWF0ZWQgPSAidHJlYXRlZCIsIG1pbm9icyA9IDEwLCBjb3ZzID0gY292czEsIHNwYXRpYWwub2JqZWN0ID0gVCkKYGBgCgpteSBsaXR0bGUgbGFwdG9wIGhhZCB0cm91YmxlIHJ1bm5pbmcgdGhlIHRoaXJkIHJlZ3Jlc3Npb24sIGJ1dCBpdCBpc24ndCB1c2VkIGluIHRoZSBwYXBlciwgc28gSSdsbCBwcmVzZW50IHRoZSBSRCBwbG90cyBmb3IgdGhlIGZpcnN0IHR3bwoKYGBge3J9CnBsb3RzcGF0aWFscmQoYmRkMSwgbWFwID0gVCkKcGxvdHNwYXRpYWxyZChiZGQyLCBtYXAgPSBUKQpgYGAKCkF2ZXJhZ2UgdHJlYXRtZW50IGVmZmVjdHMgYXJlIGNhbGN1bGF0ZWQgYmVsb3cKCmBgYHtyfQptZWFuKGJkZDEkRXN0aW1hdGUpCm1lYW4oYmRkMSRwdmFsUikKbWVhbihiZGQyJEVzdGltYXRlKQptZWFuKGJkZDIkcHZhbFIpCmBgYAoKUG9pc3NvbiByZWdyZXNzaW9ucwoKYGBge3J9Cm0xIDwtIGdsbShIdW5nYXJ5X2xpZ2h0c19ubzAudGlmIH4gdHJlYXRlZCArIEh1bmdhcnlfZWxldmF0aW9uLnRpZiArIGh1bmdhcnkucG9wLnRpZiArIHNvaWwudGYuZiwgZmFtaWx5PSJwb2lzc29uIiwgZGF0YT1odW5nYXJ5LnNmKQoKbTIgPC0gZ2xtKEh1bmdhcnlfbGlnaHRzX25vMC50aWYgfiB0cmVhdGVkICsgSHVuZ2FyeV9lbGV2YXRpb24udGlmIAogICAgICAgICAgKyBodW5nYXJ5LnBvcC50aWYgKyBzb2lsLnRmLmYsIGZhbWlseT0icG9pc3NvbiIsIGRhdGE9aHVuZ2FyeS5zZltodW5nYXJ5LnNmJGRpc3QyY3V0b2ZmIDwgMzAwMCwgXSkKCm0zIDwtIGdsbShIdW5nYXJ5X2xpZ2h0c19ubzAudGlmIH4gdHJlYXRlZCArIEh1bmdhcnlfZWxldmF0aW9uLnRpZiAKICAgICAgICAgICsgaHVuZ2FyeS5wb3AudGlmICsgc29pbC50Zi5mLCBmYW1pbHk9InBvaXNzb24iLCBkYXRhPWh1bmdhcnkuc2ZbaHVuZ2FyeS5zZiRkaXN0MmN1dG9mZiA8IDUwMDAsIF0pCgptNCA8LSBnbG0oSHVuZ2FyeV9saWdodHNfbm8wLnRpZiB+IHRyZWF0ZWQgKyBIdW5nYXJ5X2VsZXZhdGlvbi50aWYgCiAgICAgICAgICArIGh1bmdhcnkucG9wLnRpZiArIHNvaWwudGYuZiwgZmFtaWx5PSJwb2lzc29uIiwgZGF0YT1odW5nYXJ5LnNmW2h1bmdhcnkuc2YkZGlzdDJjdXRvZmYgPCAxMDAwMCwgXSkKYGBgCgpUaGUgYWN0dWFsIGVzdGltYXRlcyBhcmVuJ3QgdmVyeSBpbmZvcm1hdGl2ZSwgc28gSSdsbCBkaXNwbGF5IHRoZSBtYXJnaW5hbCBlc3RpbWF0ZXMgaW5zdGVhZC4gT25jZSBhZ2Fpbiwgd2Ugc2VlIGEgbmVnYXRpdmUgbWFyZ2luYWwgZWZmZWN0IGZvciB0aGUgZW50aXJldHkgb2YgSHVuZ2FyeS4gSG93ZXZlciwgcmVzdHJpY3RpbmcgdGhlIHJlZ3Jlc3Npb25zIHRvIGJhbmRzIG9mIDMsIDUsIGFuZCAxMCBrbSBhcm91bmQgdGhlIGN1dG9mZiBsZWFkcyB0byBwb3NpdGl2ZSBhbmQgc3RhdGlzdGljYWxseSBzaWduaWZpY2FudCBjb2VmZmljaWVudHMgb24gdGhlIHRyZWF0bWVudCB2YXJpYWJsZS4gTWFyZ2luYWwgaW5jcmVhc2VzIGFyZSBjYWxjdWxhdGVkIGF0IDI/NCBsdW1pbm9zaXR5IGNvdW50cyBhbG9uZyB0aGUgcmlnaHQgYmFuayB3aXRoaW4gdGhlIFJvbWFuIGFyZWEsIGZyb20gdGhlIDE/NjMgY291bnQgbWVhc3VyZSBwcm9kdWNlZCBieSB0aGUgTk9BQS4KCmBgYHtyfQptYXJnaW5zKG0xKQptYXJnaW5zKG0yKQptYXJnaW5zKG0zKQptYXJnaW5zKG00KQpgYGAKCgoKCg==</div>
 
 
 
